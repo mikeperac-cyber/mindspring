@@ -54,3 +54,17 @@ export function getLocalDateKey(date: Date = new Date()): string {
   const day = String(date.getDate()).padStart(2, '0');
   return `${year}-${month}-${day}`;
 }
+
+export interface TodayProgress {
+  completed: number;
+  total: number;
+  percentage: number;
+}
+
+export function getTodayProgress(data: AppData, dateKey: string): TodayProgress {
+  const checkInComplete = data.checkIns.some((checkIn) => checkIn.dateKey === dateKey);
+  const habitsComplete = data.habits.filter((habit) => habit.completedDates.includes(dateKey)).length;
+  const total = 1 + data.habits.length;
+  const completed = Number(checkInComplete) + habitsComplete;
+  return { completed, total, percentage: Math.round((completed / total) * 100) };
+}

@@ -3,6 +3,8 @@ import { AppShell } from '../components/AppShell';
 import { useAppStore } from './store';
 import { LandingPage } from '../features/entry/LandingPage';
 import { OnboardingPage } from '../features/entry/OnboardingPage';
+import { HomePage } from '../features/home/HomePage';
+import { HabitsPage } from '../features/habits/HabitsPage';
 
 function Placeholder({ title, eyebrow }: { title: string; eyebrow: string }) {
   return (
@@ -31,9 +33,9 @@ export function AppRoutes() {
         <Route path="/welcome" element={<WelcomeRoute />} />
         <Route path="/app" element={<ProtectedAppRoute />}>
           <Route index element={<Navigate to="home" replace />} />
-          <Route path="home" element={<Placeholder eyebrow="Your daily pause" title="Good morning." />} />
+          <Route path="home" element={<HomePage />} />
           <Route path="goals" element={<Placeholder eyebrow="Goals" title="Make room for what matters." />} />
-          <Route path="habits" element={<Placeholder eyebrow="Habits" title="Small actions, gently repeated." />} />
+          <Route path="habits" element={<HabitsPage />} />
           <Route path="journal" element={<Placeholder eyebrow="Journal" title="A quiet place to notice." />} />
           <Route path="insights" element={<Placeholder eyebrow="Insights" title="Your progress, in perspective." />} />
           <Route path="profile" element={<Placeholder eyebrow="Profile" title="Your space, your settings." />} />
