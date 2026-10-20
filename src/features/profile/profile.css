@@ -1,0 +1,53 @@
+.tone-profile-label { color: var(--color-plum); }
+.feature-page-sparkle.tone-profile { border-color: #dfd0db; color: var(--color-plum); background: var(--color-plum-tint); }
+.profile-edit-card { min-width: 0; max-width: 860px; padding: clamp(20px, 3vw, 31px); }
+.profile-card-heading { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; }
+.profile-card-heading h2,
+.profile-privacy-card h2,
+.profile-clear-section h2 { margin: 6px 0 0; color: var(--color-plum); font-size: 1.2rem; letter-spacing: -0.045em; }
+.profile-avatar { display: grid; width: 52px; height: 52px; flex: 0 0 auto; place-items: center; border-radius: 18px; color: var(--color-plum); background: var(--color-plum-tint); font-family: Georgia, serif; font-size: 1.35rem; font-weight: 700; }
+.profile-form { display: grid; max-width: 640px; gap: 17px; }
+.profile-field { display: grid; gap: 7px; }
+.profile-field label { color: var(--color-plum); font-size: 0.78rem; font-weight: 700; }
+.profile-field input,
+.profile-field textarea { width: 100%; min-width: 0; padding: 12px 13px; border: 1px solid #e5d9e1; border-radius: 12px; color: var(--color-ink); background: #fffdfd; font-size: 0.84rem; line-height: 1.55; }
+.profile-field input { height: 44px; }
+.profile-field textarea { min-height: 92px; resize: vertical; }
+.profile-field input:focus,
+.profile-field textarea:focus { border-color: var(--color-plum); outline: 3px solid rgb(73 39 63 / 14%); }
+.profile-field-hint { color: var(--color-muted); font-size: 0.68rem; }
+.profile-save-row { display: flex; align-items: center; gap: 14px; }
+.profile-saved-note { color: var(--color-success); font-size: 0.73rem; font-weight: 650; }
+.profile-privacy-card { display: flex; max-width: 860px; align-items: center; justify-content: space-between; gap: 18px; padding: 20px 23px; }
+.profile-privacy-copy { display: flex; align-items: flex-start; gap: 14px; }
+.privacy-icon { display: grid; width: 38px; height: 38px; flex: 0 0 auto; place-items: center; border-radius: 12px; color: var(--color-plum); background: var(--color-plum-tint); }
+.profile-privacy-card h2 { margin-top: 5px; font-size: 0.98rem; }
+.profile-privacy-card p:last-child { margin: 6px 0 0; color: var(--color-muted); font-size: 0.75rem; line-height: 1.5; }
+.local-only-badge { padding: 7px 10px; border-radius: 999px; color: var(--color-plum); background: var(--color-plum-tint); font-size: 0.65rem; font-weight: 700; white-space: nowrap; }
+.profile-clear-section { display: flex; max-width: 860px; align-items: center; justify-content: space-between; gap: 18px; padding: 20px 23px; border: 1px solid #edd2d8; border-radius: 18px; background: #fffafb; }
+.profile-clear-eyebrow { color: #9e4353; }
+.profile-clear-section h2 { font-size: 1rem; }
+.profile-clear-section p:last-child { max-width: 540px; margin: 6px 0 0; color: var(--color-muted); font-size: 0.73rem; line-height: 1.5; }
+.button-danger-outline,
+.button-danger,
+.button-secondary { min-height: 42px; padding: 0 14px; border-radius: 12px; font-size: 0.75rem; font-weight: 700; cursor: pointer; }
+.button-danger-outline { flex: 0 0 auto; border: 1px solid #d9a9b1; color: #8c3446; background: #fff; }
+.button-danger-outline:hover { background: #fff0f2; }
+.dialog-backdrop { position: fixed; z-index: 50; inset: 0; display: grid; place-items: center; padding: 18px; background: rgb(35 23 33 / 48%); backdrop-filter: blur(3px); }
+.clear-confirm-dialog { width: min(100%, 470px); padding: 27px; border: 1px solid #eadfe5; border-radius: 22px; background: var(--color-surface); box-shadow: 0 24px 70px rgb(28 18 27 / 24%); }
+.dialog-icon { display: grid; width: 39px; height: 39px; place-items: center; margin-bottom: 16px; border-radius: 13px; color: #963a4e; background: #fae9ed; font-size: 1.1rem; font-weight: 800; }
+.clear-confirm-dialog h2 { margin: 7px 0 8px; color: var(--color-plum); font-size: 1.35rem; letter-spacing: -0.045em; }
+.clear-confirm-dialog > p:last-of-type { margin: 0; color: var(--color-muted); font-size: 0.82rem; line-height: 1.6; }
+.dialog-actions { display: flex; justify-content: flex-end; gap: 9px; margin-top: 24px; }
+.button-secondary { border: 1px solid var(--color-line); color: var(--color-plum); background: white; }
+.button-secondary:hover { background: var(--color-plum-tint); }
+.button-danger { border: 1px solid #923649; color: white; background: #923649; }
+.button-danger:hover { background: #752c3b; }
+@media (max-width: 767px) {
+  .profile-edit-card { padding: 20px 17px; }
+  .profile-privacy-card, .profile-clear-section { align-items: flex-start; flex-direction: column; padding: 18px; }
+  .button-danger-outline { width: 100%; }
+  .dialog-actions { align-items: stretch; flex-direction: column-reverse; }
+  .dialog-actions button { width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) { .button-danger-outline, .button-danger, .button-secondary { transition: none; } }

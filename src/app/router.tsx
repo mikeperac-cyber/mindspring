@@ -5,16 +5,10 @@ import { LandingPage } from '../features/entry/LandingPage';
 import { OnboardingPage } from '../features/entry/OnboardingPage';
 import { HomePage } from '../features/home/HomePage';
 import { HabitsPage } from '../features/habits/HabitsPage';
-
-function Placeholder({ title, eyebrow }: { title: string; eyebrow: string }) {
-  return (
-    <section className="page-placeholder">
-      <p className="eyebrow">{eyebrow}</p>
-      <h1>{title}</h1>
-      <p className="muted-copy">A little space to notice what matters and take your next small step.</p>
-    </section>
-  );
-}
+import { GoalsPage } from '../features/goals/GoalsPage';
+import { JournalPage } from '../features/journal/JournalPage';
+import { InsightsPage } from '../features/insights/InsightsPage';
+import { ProfilePage } from '../features/profile/ProfilePage';
 
 function ProtectedAppRoute() {
   const { data } = useAppStore();
@@ -34,11 +28,11 @@ export function AppRoutes() {
         <Route path="/app" element={<ProtectedAppRoute />}>
           <Route index element={<Navigate to="home" replace />} />
           <Route path="home" element={<HomePage />} />
-          <Route path="goals" element={<Placeholder eyebrow="Goals" title="Make room for what matters." />} />
+          <Route path="goals" element={<GoalsPage />} />
           <Route path="habits" element={<HabitsPage />} />
-          <Route path="journal" element={<Placeholder eyebrow="Journal" title="A quiet place to notice." />} />
-          <Route path="insights" element={<Placeholder eyebrow="Insights" title="Your progress, in perspective." />} />
-          <Route path="profile" element={<Placeholder eyebrow="Profile" title="Your space, your settings." />} />
+          <Route path="journal" element={<JournalPage />} />
+          <Route path="insights" element={<InsightsPage />} />
+          <Route path="profile" element={<ProfilePage />} />
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
