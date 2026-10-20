@@ -45,7 +45,7 @@
   height: 48px;
   flex: 0 0 auto;
   place-items: center;
-  border: 1px solid #ead4df;
+  border: 1px solid var(--color-line);
   border-radius: 50%;
   color: var(--color-plum);
   background: var(--color-berry-tint);
@@ -70,7 +70,7 @@
   color: #fff;
   background:
     radial-gradient(circle at 88% 14%, rgb(255 255 255 / 13%), transparent 12rem),
-    linear-gradient(125deg, #592c49, #7b3b60);
+    linear-gradient(125deg, var(--color-hero-start), var(--color-hero-end));
   box-shadow: 0 16px 38px rgb(73 39 63 / 15%);
   overflow: hidden;
 }
@@ -179,7 +179,7 @@
   flex: 0 0 auto;
   place-items: center;
   border-radius: 50%;
-  background: conic-gradient(var(--color-ochre) 0 var(--progress), #f1e9d4 var(--progress) 100%);
+  background: conic-gradient(var(--color-ochre) 0 var(--progress), var(--color-ring-track) var(--progress) 100%);
 }
 
 .momentum-ring::before {
@@ -187,7 +187,7 @@
   width: 82px;
   height: 82px;
   border-radius: 50%;
-  background: #fff;
+  background: var(--color-surface);
   content: "";
 }
 
@@ -274,10 +274,10 @@
   align-items: center;
   justify-content: center;
   gap: 7px;
-  border: 1px solid #eee5eb;
+  border: 1px solid var(--color-line);
   border-radius: 12px;
   color: var(--color-muted);
-  background: #fffdfd;
+  background: var(--color-field);
   font-size: 0.76rem;
   font-weight: 610;
   cursor: pointer;
@@ -295,12 +295,12 @@
 }
 
 .mood-option:has(input:focus-visible) {
-  outline: 3px solid rgb(154 61 108 / 38%);
+  outline: 3px solid var(--color-berry);
   outline-offset: 3px;
 }
 
 .mood-option.selected {
-  border-color: #d9aec0;
+  border-color: var(--color-berry);
   color: var(--color-plum);
   background: var(--color-rose-tint);
 }
@@ -416,7 +416,7 @@
 }
 
 .empty-inline a {
-  color: #87415d;
+  color: var(--color-feature-habits-ink);
   font-size: 0.72rem;
   font-weight: 650;
   text-underline-offset: 3px;
@@ -431,7 +431,7 @@
 }
 
 .focus-habit {
-  border: 1px solid #eee5eb;
+  border: 1px solid var(--color-line);
   border-left: 3px solid var(--color-rose);
   border-radius: 12px;
   background: white;
@@ -439,7 +439,7 @@
 
 .focus-habit.complete {
   border-left-color: var(--color-success);
-  background: #f7fbf8;
+  background: var(--color-success-tint);
 }
 
 .focus-habit label {

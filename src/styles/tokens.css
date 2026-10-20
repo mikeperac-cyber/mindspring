@@ -24,7 +24,86 @@
   --color-ochre-tint: #f8f1df;
   --color-success: #376a55;
   --color-error: #a33f50;
+  --color-action-hover: #60334f;
+  --color-on-action: #ffffff;
+  --color-hero-start: #592c49;
+  --color-hero-end: #7b3b60;
+  --color-field: #fffdfd;
+  --color-surface-raised: #fff9fb;
+  --color-ring-track: #f1e9d4;
+  --color-success-tint: #e8f1ec;
+  --color-border-soft: #eadfe5;
+  --color-feature-goals-ink: #713453;
+  --color-feature-habits-ink: #744258;
+  --color-feature-journal-ink: #59446d;
+  --color-feature-insights-ink: #68501e;
   --shadow-soft: 0 14px 42px rgb(73 39 63 / 7%);
   --radius-card: 22px;
   --radius-control: 14px;
+}
+
+:root[data-theme='coastal'] {
+  --color-plum: #174a60;
+  --color-berry: #196d8d;
+  --color-rose: #28776b;
+  --color-habits-ink: #205d54;
+  --color-lilac: #66579a;
+  --color-ochre: #8a6119;
+  --color-insights-ink: #735014;
+  --color-canvas: #f4fafb;
+  --color-surface: #ffffff;
+  --color-ink: #18333e;
+  --color-muted: #526a72;
+  --color-line: #d8e8ec;
+  --color-plum-tint: #e3f0f3;
+  --color-berry-tint: #e6f3f8;
+  --color-rose-tint: #e5f4ee;
+  --color-lilac-tint: #f0edf8;
+  --color-ochre-tint: #f9f1df;
+  --color-success: #28684c;
+  --color-action-hover: #22647e;
+  --color-hero-start: #174a60;
+  --color-hero-end: #287e92;
+  --color-field: #fbfeff;
+  --color-surface-raised: #f3fbfc;
+  --color-ring-track: #e9ede0;
+  --color-border-soft: #d8e8ec;
+  --color-feature-goals-ink: #155b78;
+  --color-feature-habits-ink: #205d54;
+  --color-feature-journal-ink: #574987;
+  --color-feature-insights-ink: #735014;
+  --shadow-soft: 0 14px 42px rgb(23 74 96 / 8%);
+}
+
+:root[data-theme='grove'] {
+  --color-plum: #344d38;
+  --color-berry: #70528b;
+  --color-rose: #407456;
+  --color-habits-ink: #315b42;
+  --color-lilac: #8c526e;
+  --color-ochre: #806018;
+  --color-insights-ink: #6c5115;
+  --color-canvas: #f7f8f2;
+  --color-surface: #ffffff;
+  --color-ink: #263629;
+  --color-muted: #5f7062;
+  --color-line: #dfe8dd;
+  --color-plum-tint: #e9f0e6;
+  --color-berry-tint: #f0eaf6;
+  --color-rose-tint: #e8f2e9;
+  --color-lilac-tint: #f7eaf0;
+  --color-ochre-tint: #f8f1dc;
+  --color-success: #326447;
+  --color-action-hover: #47674b;
+  --color-hero-start: #344d38;
+  --color-hero-end: #587b58;
+  --color-field: #fcfefa;
+  --color-surface-raised: #f6faf2;
+  --color-ring-track: #e9ecdc;
+  --color-border-soft: #dfe8dd;
+  --color-feature-goals-ink: #62467b;
+  --color-feature-habits-ink: #315b42;
+  --color-feature-journal-ink: #75445d;
+  --color-feature-insights-ink: #6c5115;
+  --shadow-soft: 0 14px 42px rgb(52 77 56 / 8%);
 }

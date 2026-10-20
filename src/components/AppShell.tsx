@@ -2,6 +2,8 @@ import type { ReactNode } from 'react';
 import { useState } from 'react';
 import { Link, NavLink, Outlet } from 'react-router-dom';
 import { StorageNotice } from './StorageNotice';
+import { ThemeCycleButton } from './ThemeControls';
+import { NavIcon, type NavIconName } from './NavIcon';
 
 const desktopLinks = [
   { to: '/app/home', label: 'Home', end: true },
@@ -13,10 +15,10 @@ const desktopLinks = [
 ];
 
 const mobileLinks = [
-  { to: '/app/home', label: 'Home', icon: '⌂', end: true },
-  { to: '/app/goals', label: 'Goals', icon: '◎' },
-  { to: '/app/journal', label: 'Journal', icon: '✎' },
-  { to: '/app/profile', label: 'Profile', icon: '○' },
+  { to: '/app/home', label: 'Home', icon: 'home', end: true },
+  { to: '/app/goals', label: 'Goals', icon: 'goals' },
+  { to: '/app/journal', label: 'Journal', icon: 'journal' },
+  { to: '/app/profile', label: 'Profile', icon: 'profile' },
 ];
 
 export function AppShell({ children }: { children?: ReactNode }) {
@@ -38,7 +40,7 @@ export function AppShell({ children }: { children?: ReactNode }) {
           ))}
         </nav>
 
-        <div className="topbar-note"><span className="online-dot" /> Your space, at your pace</div>
+        <ThemeCycleButton />
       </header>
 
       <StorageNotice />
@@ -50,7 +52,7 @@ export function AppShell({ children }: { children?: ReactNode }) {
       <nav className="mobile-nav" aria-label="Mobile navigation">
         {mobileLinks.slice(0, 2).map(({ to, label, icon, end }) => (
           <NavLink key={to} to={to} end={end} className={({ isActive }) => isActive ? 'mobile-nav-link active' : 'mobile-nav-link'}>
-            <span className="mobile-nav-icon" aria-hidden="true">{icon}</span>
+            <span className="mobile-nav-icon"><NavIcon name={icon as NavIconName} /></span>
             <span>{label}</span>
           </NavLink>
         ))}
@@ -76,7 +78,7 @@ export function AppShell({ children }: { children?: ReactNode }) {
         </div>
         {mobileLinks.slice(2).map(({ to, label, icon }) => (
           <NavLink key={to} to={to} className={({ isActive }) => isActive ? 'mobile-nav-link active' : 'mobile-nav-link'}>
-            <span className="mobile-nav-icon" aria-hidden="true">{icon}</span>
+            <span className="mobile-nav-icon"><NavIcon name={icon as NavIconName} /></span>
             <span>{label}</span>
           </NavLink>
         ))}

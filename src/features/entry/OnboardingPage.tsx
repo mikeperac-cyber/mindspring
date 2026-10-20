@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { StorageNotice } from '../../components/StorageNotice';
+import { ThemeCycleButton } from '../../components/ThemeControls';
 import { useAppStore } from '../../app/store';
 import './entry.css';
 
@@ -32,7 +33,10 @@ export function OnboardingPage() {
           <span className="brand-mark" aria-hidden="true">m</span>
           <span className="brand-word">mindspring</span>
         </Link>
-        <span className="onboarding-step"><span>01</span> / 01 <span className="step-label">FIRST, ONE INTENTION</span></span>
+        <div className="onboarding-header-actions">
+          <span className="onboarding-step"><span>01</span> / 01 <span className="step-label">FIRST, ONE INTENTION</span></span>
+          <ThemeCycleButton />
+        </div>
       </header>
 
       <main className="onboarding-layout">

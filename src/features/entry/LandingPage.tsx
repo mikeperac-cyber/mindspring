@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { StorageNotice } from '../../components/StorageNotice';
+import { ThemeCycleButton } from '../../components/ThemeControls';
 import './entry.css';
 
 export function LandingPage() {
@@ -11,7 +12,7 @@ export function LandingPage() {
           <span className="brand-mark" aria-hidden="true">m</span>
           <span className="brand-word">mindspring</span>
         </Link>
-        <span className="public-header-note">A little more room to grow</span>
+        <ThemeCycleButton />
       </header>
 
       <main className="landing-grid">

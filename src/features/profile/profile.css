@@ -1,5 +1,8 @@
 .tone-profile-label { color: var(--color-plum); }
-.feature-page-sparkle.tone-profile { border-color: #dfd0db; color: var(--color-plum); background: var(--color-plum-tint); }
+.profile-theme-card { max-width: 860px; padding: clamp(20px, 3vw, 31px); }
+.profile-theme-card h2 { margin: 6px 0 4px; color: var(--color-plum); font-size: 1.2rem; letter-spacing: -0.045em; }
+.profile-theme-card > div:first-child > p:last-child { margin: 0; color: var(--color-muted); font-size: 0.78rem; line-height: 1.5; }
+.feature-page-sparkle.tone-profile { border-color: var(--color-line); color: var(--color-plum); background: var(--color-plum-tint); }
 .profile-edit-card { min-width: 0; max-width: 860px; padding: clamp(20px, 3vw, 31px); }
 .profile-card-heading { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; }
 .profile-card-heading h2,
@@ -10,7 +13,7 @@
 .profile-field { display: grid; gap: 7px; }
 .profile-field label { color: var(--color-plum); font-size: 0.78rem; font-weight: 700; }
 .profile-field input,
-.profile-field textarea { width: 100%; min-width: 0; padding: 12px 13px; border: 1px solid #e5d9e1; border-radius: 12px; color: var(--color-ink); background: #fffdfd; font-size: 0.84rem; line-height: 1.55; }
+.profile-field textarea { width: 100%; min-width: 0; padding: 12px 13px; border: 1px solid var(--color-line); border-radius: 12px; color: var(--color-ink); background: var(--color-field); font-size: 0.84rem; line-height: 1.55; }
 .profile-field input { height: 44px; }
 .profile-field textarea { min-height: 92px; resize: vertical; }
 .profile-field input:focus,
@@ -24,7 +27,7 @@
 .profile-privacy-card h2 { margin-top: 5px; font-size: 0.98rem; }
 .profile-privacy-card p:last-child { margin: 6px 0 0; color: var(--color-muted); font-size: 0.75rem; line-height: 1.5; }
 .local-only-badge { padding: 7px 10px; border-radius: 999px; color: var(--color-plum); background: var(--color-plum-tint); font-size: 0.65rem; font-weight: 700; white-space: nowrap; }
-.profile-clear-section { display: flex; max-width: 860px; align-items: center; justify-content: space-between; gap: 18px; padding: 20px 23px; border: 1px solid #edd2d8; border-radius: 18px; background: #fffafb; }
+.profile-clear-section { display: flex; max-width: 860px; align-items: center; justify-content: space-between; gap: 18px; padding: 20px 23px; border: 1px solid var(--color-line); border-radius: 18px; background: var(--color-surface-raised); }
 .profile-clear-eyebrow { color: #9e4353; }
 .profile-clear-section h2 { font-size: 1rem; }
 .profile-clear-section p:last-child { max-width: 540px; margin: 6px 0 0; color: var(--color-muted); font-size: 0.73rem; line-height: 1.5; }
@@ -39,7 +42,7 @@
 .clear-confirm-dialog h2 { margin: 7px 0 8px; color: var(--color-plum); font-size: 1.35rem; letter-spacing: -0.045em; }
 .clear-confirm-dialog > p:last-of-type { margin: 0; color: var(--color-muted); font-size: 0.82rem; line-height: 1.6; }
 .dialog-actions { display: flex; justify-content: flex-end; gap: 9px; margin-top: 24px; }
-.button-secondary { border: 1px solid var(--color-line); color: var(--color-plum); background: white; }
+.button-secondary { border: 1px solid var(--color-line); color: var(--color-plum); background: var(--color-surface); }
 .button-secondary:hover { background: var(--color-plum-tint); }
 .button-danger { border: 1px solid #923649; color: white; background: #923649; }
 .button-danger:hover { background: #752c3b; }

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppStore } from '../../app/store';
+import { ThemeChooser } from '../../components/ThemeControls';
 import './profile.css';
 
 export function ProfilePage() {
@@ -106,6 +107,15 @@ export function ProfilePage() {
         </form>
       </section>
 
+      <section className="surface-card profile-theme-card" aria-labelledby="theme-title">
+        <div>
+          <p className="eyebrow tone-profile-label">Make it yours</p>
+          <h2 id="theme-title">Choose your colors</h2>
+          <p>Pick a look that feels right. Your choice is saved in this browser.</p>
+        </div>
+        <ThemeChooser />
+      </section>
+
       <section className="surface-card profile-privacy-card" aria-labelledby="privacy-title">
         <div className="profile-privacy-copy">
           <span className="privacy-icon" aria-hidden="true">⌑</span>
@@ -122,7 +132,7 @@ export function ProfilePage() {
         <div>
           <p className="eyebrow profile-clear-eyebrow">Start fresh</p>
           <h2 id="clear-data-title">Clear your local data</h2>
-          <p>This removes your profile, goals, habits, check-ins, and journal entries from this browser.</p>
+          <p>This removes your profile, goals, habits, check-ins, journal entries, and theme choice from this browser.</p>
         </div>
         <button ref={clearButtonRef} className="button-danger-outline" type="button" onClick={() => setConfirmOpen(true)}>
           Clear all local data

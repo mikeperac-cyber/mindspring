@@ -1,12 +1,15 @@
 import type { ReactNode } from 'react';
-import { createContext, useCallback, useContext, useMemo, useRef, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { createEmptyAppData, getLocalDateKey, type AppData, type DailyCheckIn, type Profile } from './model';
 import { clearAppData, loadAppData, saveAppData, type StorageLike } from './storage';
+import { clearTheme, readTheme, writeTheme, type ThemeId } from './theme';
 
 export interface AppStoreValue {
   data: AppData;
   notice: string | null;
   storageAvailable: boolean;
+  theme: ThemeId;
+  setTheme(theme: ThemeId): void;
   completeOnboarding(profile: Profile): boolean;
   saveCheckIn(input: DailyCheckIn): void;
   addGoal(title: string): boolean;
@@ -38,6 +41,25 @@ export function AppProvider({ children, storage }: { children: ReactNode; storag
   const dataRef = useRef(initial.data);
   const [notice, setNotice] = useState(initial.notice);
   const [storageAvailable, setStorageAvailable] = useState(initial.available);
+  const [theme, setThemeState] = useState<ThemeId>(() => readTheme(storage));
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    const themeColor = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
+    themeColor?.setAttribute('content', {
+      berry: '#FBF7F8',
+      coastal: '#F4FAFB',
+      grove: '#F7F8F2',
+    }[theme]);
+  }, [theme]);
+
+  const setTheme = useCallback((next: ThemeId) => {
+    setThemeState(next);
+    if (!writeTheme(next, storage)) {
+      setStorageAvailable(false);
+      setNotice('Your theme is active for this session but could not be saved.');
+    }
+  }, [storage]);
 
   const commitData = useCallback((next: AppData) => {
     dataRef.current = next;
@@ -119,14 +141,18 @@ export function AppProvider({ children, storage }: { children: ReactNode; storag
     dataRef.current = createEmptyAppData();
     setData(dataRef.current);
     const cleared = clearAppData(storage);
-    setStorageAvailable(cleared);
-    setNotice(cleared ? null : 'Your local data could not be cleared.');
+    const themeCleared = clearTheme(storage);
+    setThemeState('berry');
+    setStorageAvailable(cleared && themeCleared);
+    setNotice(cleared && themeCleared ? null : 'Your local data could not be cleared.');
   }, [storage]);
 
   const value = useMemo<AppStoreValue>(() => ({
     data,
     notice,
     storageAvailable,
+    theme,
+    setTheme,
     completeOnboarding,
     saveCheckIn,
     addGoal,
@@ -137,7 +163,7 @@ export function AppProvider({ children, storage }: { children: ReactNode; storag
     updateProfile,
     dismissNotice,
     clearData,
-  }), [data, notice, storageAvailable, completeOnboarding, saveCheckIn, addGoal, toggleGoal, addHabit, toggleHabitToday, addJournalEntry, updateProfile, dismissNotice, clearData]);
+  }), [data, notice, storageAvailable, theme, setTheme, completeOnboarding, saveCheckIn, addGoal, toggleGoal, addHabit, toggleHabitToday, addJournalEntry, updateProfile, dismissNotice, clearData]);
 
   return <AppStoreContext.Provider value={value}>{children}</AppStoreContext.Provider>;
 }

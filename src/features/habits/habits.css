@@ -29,7 +29,7 @@
   height: 64px;
   flex: 0 0 auto;
   place-items: center;
-  border: 1px solid #edcfdc;
+  border: 1px solid var(--color-line);
   border-radius: 21px;
   color: var(--color-rose);
   background: var(--color-rose-tint);
@@ -86,10 +86,10 @@
   min-width: 0;
   height: 43px;
   padding: 0 12px;
-  border: 1px solid #e5d9e1;
+  border: 1px solid var(--color-line);
   border-radius: 12px;
   color: var(--color-ink);
-  background: #fffdfd;
+  background: var(--color-field);
   font-size: 0.78rem;
 }
 
@@ -109,7 +109,7 @@
   margin-top: 25px;
   padding: 13px;
   border-radius: 13px;
-  color: #744258;
+  color: var(--color-feature-habits-ink);
   background: var(--color-rose-tint);
   font-family: Georgia, serif;
   font-size: 0.79rem;
@@ -131,7 +131,7 @@
 .habit-day-pill {
   padding: 7px 10px;
   border-radius: 999px;
-  color: #814258;
+  color: var(--color-feature-habits-ink);
   background: var(--color-rose-tint);
   font-size: 0.66rem;
   font-weight: 700;
@@ -153,7 +153,7 @@
   align-items: center;
   gap: 11px;
   padding: 12px 13px;
-  border: 1px solid #eee5eb;
+  border: 1px solid var(--color-line);
   border-left: 3px solid var(--color-rose);
   border-radius: 0 14px 14px 0;
   background: white;
@@ -162,7 +162,7 @@
 
 .habit-row.completed {
   border-left-color: var(--color-success);
-  background: #f8fbf9;
+  background: var(--color-success-tint);
 }
 
 .habit-row-marker {
@@ -224,9 +224,9 @@
   align-content: center;
   justify-items: center;
   padding: 20px;
-  border: 1px dashed #e7d8e1;
+  border: 1px dashed var(--color-line);
   border-radius: 16px;
-  background: #fffcfd;
+  background: var(--color-field);
   text-align: center;
 }
 

@@ -1,4 +1,5 @@
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { useEffect } from 'react';
+import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { AppShell } from '../components/AppShell';
 import { useAppStore } from './store';
 import { LandingPage } from '../features/entry/LandingPage';
@@ -21,6 +22,12 @@ function WelcomeRoute() {
 }
 
 export function AppRoutes() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    if (document.scrollingElement) document.scrollingElement.scrollTop = 0;
+  }, [pathname]);
+
   return (
     <Routes>
         <Route path="/" element={<LandingPage />} />
