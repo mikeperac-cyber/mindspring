@@ -131,6 +131,39 @@ a {
   padding: 42px 32px 80px;
 }
 
+.storage-notice {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: min(calc(100% - 32px), 1256px);
+  margin: 18px auto 0;
+  padding: 13px 16px;
+  border: 1px solid #e8c5d4;
+  border-radius: 14px;
+  color: var(--color-plum);
+  background: #fff3f7;
+  font-size: 0.88rem;
+}
+
+.storage-notice button {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  color: var(--color-plum);
+  background: transparent;
+  font-size: 1.25rem;
+  cursor: pointer;
+}
+
+.storage-notice button:hover {
+  background: #f5dfe9;
+}
+
 .page-placeholder {
   min-height: 260px;
   padding: clamp(28px, 5vw, 56px);

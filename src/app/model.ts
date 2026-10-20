@@ -1,0 +1,56 @@
+export type Mood = 'low' | 'steady' | 'bright';
+
+export interface Profile {
+  displayName: string;
+  intention: string;
+}
+
+export interface Goal {
+  id: string;
+  title: string;
+  completed: boolean;
+}
+
+export interface Habit {
+  id: string;
+  title: string;
+  completedDates: string[];
+}
+
+export interface DailyCheckIn {
+  dateKey: string;
+  mood: Mood;
+  energy: 1 | 2 | 3 | 4 | 5;
+}
+
+export interface JournalEntry {
+  id: string;
+  dateKey: string;
+  createdAt: string;
+  body: string;
+}
+
+export interface AppData {
+  profile: Profile | null;
+  goals: Goal[];
+  habits: Habit[];
+  checkIns: DailyCheckIn[];
+  journalEntries: JournalEntry[];
+}
+
+export function createEmptyAppData(): AppData {
+  return {
+    profile: null,
+    goals: [],
+    habits: [],
+    checkIns: [],
+    journalEntries: [],
+  };
+}
+
+export function getLocalDateKey(date: Date = new Date()): string {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
