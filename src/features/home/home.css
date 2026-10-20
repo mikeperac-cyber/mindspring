@@ -149,7 +149,7 @@
 }
 
 .momentum-copy .eyebrow {
-  color: var(--color-ochre);
+  color: var(--color-insights-ink);
 }
 
 .momentum-copy h2 {
@@ -234,10 +234,10 @@
   margin-bottom: 3px;
 }
 
-.tone-habits-label { color: #8f4761; }
+.tone-habits-label { color: var(--color-habits-ink); }
 .tone-goals-label { color: var(--color-berry); }
 .tone-journal-label { color: var(--color-lilac); }
-.tone-insights-label { color: #80600f; }
+.tone-insights-label { color: var(--color-insights-ink); }
 
 .card-heading-row h2,
 .section-title-row h2 {

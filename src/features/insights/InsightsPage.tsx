@@ -81,21 +81,30 @@ export function InsightsPage({ today = new Date() }: { today?: Date }) {
             <p className="eyebrow tone-insights-label">Your recent rhythm</p>
             <h2 id="weekly-title">The last seven days</h2>
           </div>
-          <span className="weekly-legend"><span aria-hidden="true" /> Days with a check-in</span>
+          <span className="weekly-legend"><span aria-hidden="true">✓</span> Check-in completed</span>
         </div>
         <p className="weekly-text-summary" id="weekly-text-summary">{checkInCopy}. {habitCopy}.</p>
-        <div className="weekly-chart" role="img" aria-label="Daily check-ins across the last 7 days" aria-describedby="weekly-text-summary">
+        <div className="weekly-chart" role="img" aria-label="Daily check-ins across the last 7 days" aria-describedby="weekly-text-summary weekly-day-summary">
           {summary.days.map((day) => {
             const labels = displayDay(day.dateKey);
             return (
               <div className={day.checkIn ? 'weekly-day checked-in' : 'weekly-day'} key={day.dateKey}>
                 <span className="weekly-day-total">{day.habitCompletions}</span>
+                <span className="weekly-day-state" aria-hidden="true">{day.checkIn ? '✓' : '—'}</span>
                 <span className="weekly-day-bar" aria-hidden="true"><span /></span>
                 <span className="weekly-day-name" title={labels.long}>{labels.short}</span>
               </div>
             );
           })}
         </div>
+        <ul className="visually-hidden" id="weekly-day-summary" aria-label="Daily progress details">
+          {summary.days.map((day) => {
+            const labels = displayDay(day.dateKey);
+            const checkInText = day.checkIn ? 'check-in completed' : 'no check-in';
+            const habitText = day.habitCompletions === 1 ? '1 habit completed' : `${day.habitCompletions} habits completed`;
+            return <li key={day.dateKey}>{`${labels.long}: ${checkInText}; ${habitText}.`}</li>;
+          })}
+        </ul>
         <p className="weekly-note">The small number above each day is how many habits you marked done.</p>
       </section>
 

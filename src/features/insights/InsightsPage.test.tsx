@@ -40,9 +40,12 @@ describe('seven-day progress summary', () => {
 
   it('provides a readable text summary beside the progress visualization', () => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-    render(<MemoryRouter><AppProvider><InsightsPage today={today} /></AppProvider></MemoryRouter>);
+    const { container } = render(<MemoryRouter><AppProvider><InsightsPage today={today} /></AppProvider></MemoryRouter>);
     expect(screen.getByText('2 check-ins in the last 7 days')).toBeInTheDocument();
     expect(screen.getByText('3 habit completions in the last 7 days')).toBeInTheDocument();
     expect(screen.getByRole('img', { name: 'Daily check-ins across the last 7 days' })).toBeInTheDocument();
+    expect(screen.getByText(/Tuesday, October 20: check-in completed; 1 habit completed\./)).toBeInTheDocument();
+    expect(screen.getByText(/Wednesday, October 14: no check-in; 0 habits completed\./)).toBeInTheDocument();
+    expect(container.querySelectorAll('.weekly-day.checked-in .weekly-day-state')).toHaveLength(2);
   });
 });
