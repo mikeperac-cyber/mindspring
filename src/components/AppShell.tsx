@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { useState } from 'react';
 import { Link, NavLink, Outlet } from 'react-router-dom';
-import { useAppStore } from '../app/store';
+import { StorageNotice } from './StorageNotice';
 
 const desktopLinks = [
   { to: '/app/home', label: 'Home', end: true },
@@ -21,7 +21,6 @@ const mobileLinks = [
 
 export function AppShell({ children }: { children?: ReactNode }) {
   const [addOpen, setAddOpen] = useState(false);
-  const { notice, dismissNotice } = useAppStore();
 
   return (
     <div className="app-frame">
@@ -42,12 +41,7 @@ export function AppShell({ children }: { children?: ReactNode }) {
         <div className="topbar-note"><span className="online-dot" /> Your space, at your pace</div>
       </header>
 
-      {notice && (
-        <div className="storage-notice" role="status">
-          <span>{notice}</span>
-          <button type="button" aria-label="Dismiss notice" onClick={dismissNotice}>×</button>
-        </div>
-      )}
+      <StorageNotice />
 
       <main id="main-content" className="app-content">
         {children ?? <Outlet />}

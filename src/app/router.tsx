@@ -1,5 +1,8 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { AppShell } from '../components/AppShell';
+import { useAppStore } from './store';
+import { LandingPage } from '../features/entry/LandingPage';
+import { OnboardingPage } from '../features/entry/OnboardingPage';
 
 function Placeholder({ title, eyebrow }: { title: string; eyebrow: string }) {
   return (
@@ -11,13 +14,22 @@ function Placeholder({ title, eyebrow }: { title: string; eyebrow: string }) {
   );
 }
 
-export function AppRouter() {
+function ProtectedAppRoute() {
+  const { data } = useAppStore();
+  return data.profile ? <AppShell /> : <Navigate to="/welcome" replace />;
+}
+
+function WelcomeRoute() {
+  const { data } = useAppStore();
+  return data.profile ? <Navigate to="/app/home" replace /> : <OnboardingPage />;
+}
+
+export function AppRoutes() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Placeholder eyebrow="A gentler kind of progress" title="Small steps can change a lot." />} />
-        <Route path="/welcome" element={<Placeholder eyebrow="Your space begins here" title="Choose one intention." />} />
-        <Route path="/app" element={<AppShell />}>
+    <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/welcome" element={<WelcomeRoute />} />
+        <Route path="/app" element={<ProtectedAppRoute />}>
           <Route index element={<Navigate to="home" replace />} />
           <Route path="home" element={<Placeholder eyebrow="Your daily pause" title="Good morning." />} />
           <Route path="goals" element={<Placeholder eyebrow="Goals" title="Make room for what matters." />} />
@@ -27,7 +39,14 @@ export function AppRouter() {
           <Route path="profile" element={<Placeholder eyebrow="Profile" title="Your space, your settings." />} />
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
+    </Routes>
+  );
+}
+
+export function AppRouter() {
+  return (
+    <BrowserRouter>
+      <AppRoutes />
     </BrowserRouter>
   );
 }
