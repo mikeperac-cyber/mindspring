@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
-import { useState } from 'react';
-import { Link, NavLink, Outlet } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
+import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
 import { StorageNotice } from './StorageNotice';
 import { ThemeCycleButton } from './ThemeControls';
 import { NavIcon, type NavIconName } from './NavIcon';
@@ -23,6 +23,10 @@ const mobileLinks = [
 
 export function AppShell({ children }: { children?: ReactNode }) {
   const [addOpen, setAddOpen] = useState(false);
+  const addButtonRef = useRef<HTMLButtonElement>(null);
+  const { pathname } = useLocation();
+
+  useEffect(() => setAddOpen(false), [pathname]);
 
   return (
     <div className="app-frame">
@@ -56,8 +60,14 @@ export function AppShell({ children }: { children?: ReactNode }) {
             <span>{label}</span>
           </NavLink>
         ))}
-        <div className="mobile-add-wrap">
+        <div className="mobile-add-wrap" onKeyDown={(event) => {
+          if (event.key === 'Escape') {
+            setAddOpen(false);
+            addButtonRef.current?.focus();
+          }
+        }}>
           <button
+            ref={addButtonRef}
             className="mobile-add-button"
             type="button"
             aria-label="Add"

@@ -2,3 +2,4 @@ node_modules/
 dist/
 .superpowers/sdd/
 coverage/
+desktop.ini

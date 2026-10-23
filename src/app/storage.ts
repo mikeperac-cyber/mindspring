@@ -30,7 +30,16 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 }
 
 function isDateKey(value: unknown): value is string {
-  return typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value);
+  if (typeof value !== 'string') return false;
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
+  if (!match) return false;
+  const [, yearPart, monthPart, dayPart] = match;
+  const year = Number(yearPart);
+  const month = Number(monthPart);
+  const day = Number(dayPart);
+  const date = new Date(0);
+  date.setUTCFullYear(year, month - 1, day);
+  return date.getUTCFullYear() === year && date.getUTCMonth() === month - 1 && date.getUTCDate() === day;
 }
 
 function isAppData(value: unknown): value is AppData {

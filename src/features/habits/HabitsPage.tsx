@@ -2,14 +2,16 @@ import { useState, type FormEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { getLastSevenDateKeys, getLocalDateKey } from '../../app/model';
 import { useAppStore } from '../../app/store';
+import { useLocalToday } from '../../app/useLocalToday';
 import './habits.css';
 
 export function HabitsPage() {
   const { data, addHabit, toggleHabitToday } = useAppStore();
+  const today = useLocalToday();
   const [title, setTitle] = useState('');
   const [error, setError] = useState<string | null>(null);
-  const dateKey = getLocalDateKey();
-  const recentDates = getLastSevenDateKeys();
+  const dateKey = getLocalDateKey(today);
+  const recentDates = getLastSevenDateKeys(today);
   const completeCount = data.habits.filter((habit) => habit.completedDates.includes(dateKey)).length;
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -61,7 +63,7 @@ export function HabitsPage() {
               <p className="eyebrow tone-habits-label">Today · {completeCount} of {data.habits.length} complete</p>
               <h2 id="habit-list-title">Your small actions</h2>
             </div>
-            <span className="habit-day-pill">{new Date().toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' })}</span>
+            <span className="habit-day-pill">{today.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' })}</span>
           </div>
 
           {data.habits.length === 0 ? (

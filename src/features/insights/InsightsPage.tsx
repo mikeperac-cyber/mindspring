@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getLastSevenDateKeys, getRecentDateKeys, type AppData, type Mood } from '../../app/model';
+import { getLastSevenDateKeys, getLocalDateKey, getRecentDateKeys, type AppData, type Mood } from '../../app/model';
 import { WEEKLY_PROMPT } from '../../app/prompts';
 import { useAppStore } from '../../app/store';
+import { useLocalToday } from '../../app/useLocalToday';
 import './insights.css';
 
 export interface WeeklyDay {
@@ -32,10 +33,16 @@ function summarizeLastThirtyDays(data: AppData, today: Date): ActivityDay[] {
   const checkIns = new Map(data.checkIns.map((checkIn) => [checkIn.dateKey, checkIn]));
   const reflections = new Map<string, number>();
   data.journalEntries.forEach((entry) => reflections.set(entry.dateKey, (reflections.get(entry.dateKey) ?? 0) + 1));
-  return getRecentDateKeys(30, today).map((dateKey) => ({
+  const recentDates = getRecentDateKeys(30, today);
+  const recentDateSet = new Set(recentDates);
+  const habitCompletions = new Map<string, number>();
+  data.habits.forEach((habit) => habit.completedDates.forEach((dateKey) => {
+    if (recentDateSet.has(dateKey)) habitCompletions.set(dateKey, (habitCompletions.get(dateKey) ?? 0) + 1);
+  }));
+  return recentDates.map((dateKey) => ({
     dateKey,
     checkIn: checkIns.get(dateKey) ?? null,
-    habitCompletions: data.habits.filter((habit) => habit.completedDates.includes(dateKey)).length,
+    habitCompletions: habitCompletions.get(dateKey) ?? 0,
     reflections: reflections.get(dateKey) ?? 0,
   }));
 }
@@ -78,11 +85,20 @@ function displayDay(dateKey: string): { short: string; long: string } {
   };
 }
 
-export function InsightsPage({ today = new Date() }: { today?: Date }) {
+export function InsightsPage({ today }: { today?: Date }) {
   const { data } = useAppStore();
+  const liveToday = useLocalToday();
+  const todayKey = getLocalDateKey(today ?? liveToday);
   const [selectedDateKey, setSelectedDateKey] = useState<string | null>(null);
-  const summary = summarizeLastSevenDays(data, today);
-  const monthDays = summarizeLastThirtyDays(data, today);
+  const { summary, monthDays } = useMemo(() => {
+    const [year, month, day] = todayKey.split('-').map(Number);
+    const anchorDate = new Date(year, month - 1, day, 12);
+    return {
+      summary: summarizeLastSevenDays(data, anchorDate),
+      monthDays: summarizeLastThirtyDays(data, anchorDate),
+    };
+  }, [data, todayKey]);
+  useEffect(() => setSelectedDateKey(null), [todayKey]);
   const selectedDay = monthDays.find((day) => day.dateKey === selectedDateKey) ?? monthDays[monthDays.length - 1];
   const activeDays = monthDays.filter((day) => day.checkIn || day.habitCompletions || day.reflections).length;
   const monthReflections = monthDays.reduce((total, day) => total + day.reflections, 0);

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useAppStore } from '../../app/store';
 import { getLocalDateKey, getTodayProgress, type Mood } from '../../app/model';
 import { DAILY_PROMPTS, getDailyPromptIndex } from '../../app/prompts';
+import { useLocalToday } from '../../app/useLocalToday';
 import './home.css';
 
 const moods: { value: Mood; label: string; emoji: string }[] = [
@@ -11,9 +12,8 @@ const moods: { value: Mood; label: string; emoji: string }[] = [
   { value: 'bright', label: 'Bright', emoji: '✳' },
 ];
 
-function DailyCheckInCard() {
+function DailyCheckInCard({ dateKey }: { dateKey: string }) {
   const { data, saveCheckIn } = useAppStore();
-  const dateKey = getLocalDateKey();
   const existingCheckIn = data.checkIns.find((checkIn) => checkIn.dateKey === dateKey);
   const [mood, setMood] = useState<Mood>(existingCheckIn?.mood ?? 'steady');
   const [energy, setEnergy] = useState<1 | 2 | 3 | 4 | 5>(existingCheckIn?.energy ?? 3);
@@ -24,7 +24,8 @@ function DailyCheckInCard() {
     setMood(existingCheckIn?.mood ?? 'steady');
     setEnergy(existingCheckIn?.energy ?? 3);
     setNote(existingCheckIn?.note ?? '');
-  }, [existingCheckIn?.mood, existingCheckIn?.energy, existingCheckIn?.note]);
+    setSaved(false);
+  }, [dateKey, existingCheckIn?.mood, existingCheckIn?.energy, existingCheckIn?.note]);
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -86,9 +87,8 @@ function DailyCheckInCard() {
   );
 }
 
-function DailyGuide() {
+function DailyGuide({ dateKey }: { dateKey: string }) {
   const { data } = useAppStore();
-  const dateKey = getLocalDateKey();
   const checkIn = data.checkIns.find((item) => item.dateKey === dateKey);
   const openHabit = data.habits.find((habit) => !habit.completedDates.includes(dateKey));
   const guidance = !checkIn
@@ -113,9 +113,9 @@ function DailyGuide() {
   );
 }
 
-function MomentumCard() {
+function MomentumCard({ dateKey }: { dateKey: string }) {
   const { data } = useAppStore();
-  const progress = getTodayProgress(data, getLocalDateKey());
+  const progress = getTodayProgress(data, dateKey);
   const style = { '--progress': `${progress.percentage}%` } as CSSProperties;
 
   return (
@@ -133,9 +133,8 @@ function MomentumCard() {
   );
 }
 
-function FocusHabits() {
+function FocusHabits({ dateKey }: { dateKey: string }) {
   const { data, toggleHabitToday } = useAppStore();
-  const dateKey = getLocalDateKey();
 
   return (
     <section className="surface-card focus-card" aria-labelledby="focus-title">
@@ -181,11 +180,13 @@ function FocusHabits() {
 
 export function HomePage() {
   const { data } = useAppStore();
+  const today = useLocalToday();
+  const dateKey = getLocalDateKey(today);
   const profile = data.profile;
   const activeGoals = data.goals.filter((goal) => !goal.completed).length;
   const journalCount = data.journalEntries.length;
-  const dateLabel = new Date().toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
-  const dailyPrompt = DAILY_PROMPTS[getDailyPromptIndex(getLocalDateKey())];
+  const dateLabel = today.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
+  const dailyPrompt = DAILY_PROMPTS[getDailyPromptIndex(dateKey)];
 
   return (
     <div className="home-page">
@@ -207,15 +208,15 @@ export function HomePage() {
           <Link to="/app/journal">Write a reflection <span aria-hidden="true">→</span></Link>
           <span className="welcome-decoration" aria-hidden="true">✿</span>
         </section>
-        <MomentumCard />
+        <MomentumCard dateKey={dateKey} />
       </div>
 
       <div className="home-action-grid">
-        <DailyCheckInCard />
-        <FocusHabits />
+        <DailyCheckInCard key={dateKey} dateKey={dateKey} />
+        <FocusHabits dateKey={dateKey} />
       </div>
 
-      <DailyGuide />
+      <DailyGuide dateKey={dateKey} />
 
       <section className="growth-space" aria-labelledby="growth-space-title">
         <div className="section-title-row growth-space-title-row">

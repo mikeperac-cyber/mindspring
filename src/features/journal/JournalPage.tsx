@@ -3,6 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { getLocalDateKey } from '../../app/model';
 import { DAILY_PROMPTS, getDailyPromptIndex, WEEKLY_PROMPT } from '../../app/prompts';
 import { useAppStore } from '../../app/store';
+import { useLocalToday } from '../../app/useLocalToday';
 import './journal.css';
 
 function formatDate(dateKey: string): string {
@@ -14,9 +15,10 @@ function formatDate(dateKey: string): string {
 
 export function JournalPage() {
   const { data, addJournalEntry } = useAppStore();
+  const today = useLocalToday();
   const [searchParams] = useSearchParams();
   const promptParam = searchParams.get('prompt');
-  const dateKey = getLocalDateKey();
+  const dateKey = getLocalDateKey(today);
   const [promptChoice, setPromptChoice] = useState<number | 'weekly'>(() =>
     promptParam === 'weekly' ? 'weekly' : getDailyPromptIndex(dateKey));
   const [body, setBody] = useState('');
