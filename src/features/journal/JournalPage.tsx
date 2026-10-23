@@ -1,5 +1,7 @@
-import { useState, type FormEvent } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useState, type FormEvent } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
+import { getLocalDateKey } from '../../app/model';
+import { DAILY_PROMPTS, getDailyPromptIndex, WEEKLY_PROMPT } from '../../app/prompts';
 import { useAppStore } from '../../app/store';
 import './journal.css';
 
@@ -12,12 +14,27 @@ function formatDate(dateKey: string): string {
 
 export function JournalPage() {
   const { data, addJournalEntry } = useAppStore();
+  const [searchParams] = useSearchParams();
+  const promptParam = searchParams.get('prompt');
+  const dateKey = getLocalDateKey();
+  const [promptChoice, setPromptChoice] = useState<number | 'weekly'>(() =>
+    promptParam === 'weekly' ? 'weekly' : getDailyPromptIndex(dateKey));
   const [body, setBody] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const prompt = promptChoice === 'weekly' ? WEEKLY_PROMPT : DAILY_PROMPTS[promptChoice];
+
+  useEffect(() => {
+    setPromptChoice(promptParam === 'weekly' ? 'weekly' : getDailyPromptIndex(dateKey));
+  }, [promptParam, dateKey]);
+
+  function showAnotherPrompt() {
+    setPromptChoice((current) =>
+      ((current === 'weekly' ? getDailyPromptIndex(dateKey) : current) + 1) % DAILY_PROMPTS.length);
+  }
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (!addJournalEntry(body)) {
+    if (!addJournalEntry(body, prompt)) {
       setError('Write a few words before saving.');
       return;
     }
@@ -37,12 +54,15 @@ export function JournalPage() {
       </header>
 
       <section className="surface-card journal-compose section-card tone-journal" aria-labelledby="journal-compose-title">
-        <div className="journal-prompt">
-          <span className="journal-prompt-mark" aria-hidden="true">“</span>
-          <div>
-            <p className="eyebrow tone-journal-label">A prompt for today</p>
-            <h2 id="journal-compose-title">What helped you feel present today?</h2>
+        <div className="journal-prompt-row">
+          <div className="journal-prompt">
+            <span className="journal-prompt-mark" aria-hidden="true">“</span>
+            <div>
+              <p className="eyebrow tone-journal-label">{promptChoice === 'weekly' ? 'A weekly reflection' : 'A prompt for today'}</p>
+              <h2 id="journal-compose-title">{prompt}</h2>
+            </div>
           </div>
+          <button className="journal-next-prompt" type="button" onClick={showAnotherPrompt}>Try another prompt <span aria-hidden="true">↻</span></button>
         </div>
         <form className="journal-form" onSubmit={handleSubmit} noValidate>
           <label htmlFor="journal-body">Your reflection</label>
@@ -80,6 +100,7 @@ export function JournalPage() {
             {data.journalEntries.map((entry) => (
               <li className="journal-entry" key={entry.id}>
                 <time dateTime={entry.dateKey}>{formatDate(entry.dateKey)}</time>
+                {entry.prompt && <span className="journal-entry-prompt">{entry.prompt}</span>}
                 <p>{entry.body}</p>
               </li>
             ))}

@@ -2,7 +2,10 @@
 .feature-page-sparkle.tone-journal { border-color: var(--color-line); color: var(--color-lilac); background: var(--color-lilac-tint); }
 .journal-compose,
 .journal-history { min-width: 0; padding: clamp(20px, 3vw, 31px); }
-.journal-prompt { display: flex; align-items: center; gap: 15px; margin-bottom: 24px; }
+.journal-prompt-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 24px; }
+.journal-prompt { display: flex; align-items: center; gap: 15px; min-width: 0; }
+.journal-next-prompt { min-height: 44px; flex: 0 0 auto; padding: 0 13px; border: 1px solid var(--color-line); border-radius: 12px; color: var(--color-feature-journal-ink); background: var(--color-surface); font-size: 0.74rem; font-weight: 700; cursor: pointer; }
+.journal-next-prompt:hover { background: var(--color-lilac-tint); }
 .journal-prompt-mark { display: grid; width: 47px; height: 47px; flex: 0 0 auto; place-items: center; border-radius: 16px; color: var(--color-lilac); background: var(--color-lilac-tint); font-family: Georgia, serif; font-size: 2.4rem; line-height: 1; }
 .journal-prompt h2,
 .journal-history h2 { margin: 6px 0 0; color: var(--color-plum); font-size: 1.23rem; letter-spacing: -0.045em; }
@@ -22,6 +25,7 @@
 .journal-entry-list { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
 .journal-entry { padding: 16px 18px; border: 1px solid var(--color-line); border-left: 4px solid var(--color-lilac); border-radius: 0 14px 14px 0; background: var(--color-field); }
 .journal-entry time { color: var(--color-lilac); font-size: 0.68rem; font-weight: 750; }
+.journal-entry-prompt { display: block; margin-top: 9px; color: var(--color-feature-journal-ink); font-size: 0.78rem; font-weight: 700; line-height: 1.45; }
 .journal-entry p { margin: 9px 0 0; color: var(--color-ink); font-size: 0.88rem; line-height: 1.65; white-space: pre-wrap; overflow-wrap: anywhere; }
 .journal-back-link { display: inline-block; margin-top: 18px; color: var(--color-plum); font-size: 0.74rem; text-decoration-color: #cdb8c6; text-underline-offset: 4px; }
-@media (max-width: 767px) { .journal-submit-row { align-items: stretch; flex-direction: column; } .journal-submit-row .button-primary { width: 100%; } .journal-history .section-title-row { align-items: flex-start; } }
+@media (max-width: 767px) { .journal-prompt-row { align-items: flex-start; flex-direction: column; } .journal-submit-row { align-items: stretch; flex-direction: column; } .journal-submit-row .button-primary { width: 100%; } .journal-history .section-title-row { align-items: flex-start; } }

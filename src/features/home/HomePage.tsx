@@ -2,6 +2,7 @@ import { useEffect, useState, type CSSProperties, type FormEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { useAppStore } from '../../app/store';
 import { getLocalDateKey, getTodayProgress, type Mood } from '../../app/model';
+import { DAILY_PROMPTS, getDailyPromptIndex } from '../../app/prompts';
 import './home.css';
 
 const moods: { value: Mood; label: string; emoji: string }[] = [
@@ -150,6 +151,7 @@ export function HomePage() {
   const activeGoals = data.goals.filter((goal) => !goal.completed).length;
   const journalCount = data.journalEntries.length;
   const dateLabel = new Date().toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
+  const dailyPrompt = DAILY_PROMPTS[getDailyPromptIndex(getLocalDateKey())];
 
   return (
     <div className="home-page">
@@ -165,10 +167,10 @@ export function HomePage() {
       <div className="home-top-grid">
         <section className="welcome-card">
           <span className="welcome-orb" aria-hidden="true">✳</span>
-          <p className="welcome-kicker">A note to carry with you</p>
+          <p className="welcome-kicker">A prompt for today</p>
           <h2>One small step<br />is still a step.</h2>
-          <p>There’s no perfect pace. Just your next kind choice.</p>
-          <Link to="/app/journal">Leave yourself a note <span aria-hidden="true">→</span></Link>
+          <p>{dailyPrompt}</p>
+          <Link to="/app/journal">Write a reflection <span aria-hidden="true">→</span></Link>
           <span className="welcome-decoration" aria-hidden="true">✿</span>
         </section>
         <MomentumCard />

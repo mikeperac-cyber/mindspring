@@ -1,6 +1,26 @@
 .tone-insights-label { color: var(--color-insights-ink); }
 .feature-page-sparkle.tone-insights { border-color: var(--color-line); color: var(--color-ochre); background: var(--color-ochre-tint); }
 .insights-summary-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 17px; }
+.mood-summary-card { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); align-items: center; gap: 26px; padding: clamp(20px, 3vw, 30px); }
+.mood-summary-card h2,
+.weekly-reflection-card h2 { margin: 6px 0 8px; color: var(--color-plum); font-size: 1.23rem; letter-spacing: -0.045em; }
+.mood-summary-card > div:first-child > p:last-child,
+.weekly-reflection-card p:last-child { margin: 0; color: var(--color-muted); font-size: 0.78rem; line-height: 1.55; }
+.mood-summary-empty { margin: 0; padding: 18px; border-radius: 14px; color: var(--color-muted); background: var(--color-surface); font-size: 0.79rem; line-height: 1.6; }
+.mood-summary-empty a { color: var(--color-feature-journal-ink); font-weight: 700; }
+.mood-summary-content { min-width: 0; padding: 17px; border: 1px solid var(--color-line); border-radius: 16px; background: var(--color-surface); }
+.mood-breakdown { display: grid; gap: 13px; margin: 0; padding: 0; list-style: none; }
+.mood-breakdown li { display: grid; grid-template-columns: 58px minmax(0, 1fr) 24px; align-items: center; gap: 11px; color: var(--color-ink); font-size: 0.74rem; }
+.mood-breakdown-label { font-weight: 700; }
+.mood-breakdown-track { display: block; height: 11px; overflow: hidden; border-radius: 999px; background: var(--color-canvas); }
+.mood-breakdown-track > span { display: block; height: 100%; border-radius: inherit; background: var(--color-lilac); }
+.mood-breakdown-low .mood-breakdown-track > span { background: var(--color-rose); }
+.mood-breakdown-bright .mood-breakdown-track > span { background: var(--color-berry); }
+.mood-breakdown strong { text-align: right; font-variant-numeric: tabular-nums; }
+.mood-energy-copy { margin: 15px 0 0; padding-top: 13px; border-top: 1px solid var(--color-line); color: var(--color-muted); font-size: 0.75rem; line-height: 1.5; }
+.mood-energy-copy strong { color: var(--color-plum); }
+.weekly-reflection-card { display: flex; align-items: center; justify-content: space-between; gap: 22px; padding: clamp(20px, 3vw, 30px); }
+.weekly-reflection-card .button-primary { flex: 0 0 auto; }
 .insight-stat-card { position: relative; min-width: 0; min-height: 185px; padding: 23px 25px; }
 .insight-stat-icon { position: absolute; top: 20px; right: 22px; display: grid; width: 40px; height: 40px; place-items: center; border-radius: 13px; color: var(--color-ochre); background: var(--color-ochre-tint); font-size: 1.2rem; }
 .insight-stat-card .eyebrow { margin-right: 50px; }
@@ -27,5 +47,5 @@
 .insight-kind-note > span { font-size: 1.05rem; }
 .insight-kind-note p { margin: 0; font-size: 0.78rem; line-height: 1.55; }
 .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; clip-path: inset(50%); border: 0; }
-@media (max-width: 767px) { .insights-summary-grid { grid-template-columns: minmax(0, 1fr); gap: 12px; } .insight-stat-card { min-height: 155px; padding: 20px; } .weekly-card-heading { align-items: flex-start; flex-direction: column; } .weekly-chart { gap: 4px; padding-inline: 0; } .weekly-day { height: 145px; } .weekly-day-name { font-size: 0.61rem; } }
+@media (max-width: 767px) { .insights-summary-grid, .mood-summary-card { grid-template-columns: minmax(0, 1fr); gap: 12px; } .insight-stat-card { min-height: 155px; padding: 20px; } .weekly-card-heading { align-items: flex-start; flex-direction: column; } .weekly-chart { gap: 4px; padding-inline: 0; } .weekly-day { height: 145px; } .weekly-day-name { font-size: 0.61rem; } .weekly-reflection-card { align-items: stretch; flex-direction: column; } .weekly-reflection-card .button-primary { width: 100%; } }
 @media (prefers-reduced-motion: reduce) { .weekly-day-bar > span { transition: none; } }

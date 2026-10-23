@@ -218,6 +218,15 @@
   font-weight: 700;
 }
 
+.habit-week { grid-column: 1 / -1; padding-top: 11px; border-top: 1px solid var(--color-line); }
+.habit-week-heading { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 10px; margin-bottom: 8px; color: var(--color-muted); font-size: 0.68rem; }
+.habit-week-heading strong { color: var(--color-feature-habits-ink); font-weight: 700; }
+.habit-week-days { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 5px; margin: 0; padding: 0; list-style: none; }
+.habit-week-days li { min-width: 0; }
+.habit-week-days time { display: grid; min-height: 46px; align-content: center; justify-items: center; gap: 3px; border: 1px solid var(--color-line); border-radius: 10px; color: var(--color-muted); background: var(--color-field); font-size: 0.64rem; text-decoration: none; }
+.habit-week-days time span:last-child { font-size: 0.9rem; font-weight: 800; line-height: 1; }
+.habit-week-days .done time { border-color: var(--color-rose); color: var(--color-feature-habits-ink); background: var(--color-rose-tint); }
+
 .habit-empty-state {
   display: grid;
   min-height: 218px;

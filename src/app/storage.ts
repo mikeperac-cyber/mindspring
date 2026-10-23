@@ -53,7 +53,8 @@ function isAppData(value: unknown): value is AppData {
   ));
   const validJournalEntries = Array.isArray(journalEntries) && journalEntries.every((entry) => (
     isRecord(entry) && typeof entry.id === 'string' && isDateKey(entry.dateKey) &&
-    typeof entry.createdAt === 'string' && typeof entry.body === 'string'
+    typeof entry.createdAt === 'string' && typeof entry.body === 'string' &&
+    (entry.prompt === undefined || typeof entry.prompt === 'string')
   ));
 
   return validProfile && validGoals && validHabits && validCheckIns && validJournalEntries;

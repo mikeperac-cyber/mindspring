@@ -1,4 +1,6 @@
-import { getLocalDateKey, type AppData } from '../../app/model';
+import { Link } from 'react-router-dom';
+import { getLastSevenDateKeys, type AppData, type Mood } from '../../app/model';
+import { WEEKLY_PROMPT } from '../../app/prompts';
 import { useAppStore } from '../../app/store';
 import './insights.css';
 
@@ -6,31 +8,44 @@ export interface WeeklyDay {
   dateKey: string;
   checkIn: boolean;
   habitCompletions: number;
+  mood: Mood | null;
+  energy: number | null;
 }
 
 export interface WeeklySummary {
   days: WeeklyDay[];
   checkInDays: number;
   habitCompletions: number;
+  moodCounts: Record<Mood, number>;
+  averageEnergy: number | null;
 }
 
 export function summarizeLastSevenDays(data: AppData, today: Date = new Date()): WeeklySummary {
-  const endDate = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 12);
-  const days: WeeklyDay[] = [];
-  for (let offset = 6; offset >= 0; offset -= 1) {
-    const date = new Date(endDate);
-    date.setDate(endDate.getDate() - offset);
-    const dateKey = getLocalDateKey(date);
-    days.push({
+  const checkInsByDate = new Map(data.checkIns.map((checkIn) => [checkIn.dateKey, checkIn]));
+  const days: WeeklyDay[] = getLastSevenDateKeys(today).map((dateKey) => {
+    const checkIn = checkInsByDate.get(dateKey);
+    return {
       dateKey,
-      checkIn: data.checkIns.some((checkIn) => checkIn.dateKey === dateKey),
+      checkIn: Boolean(checkIn),
       habitCompletions: data.habits.filter((habit) => habit.completedDates.includes(dateKey)).length,
-    });
-  }
+      mood: checkIn?.mood ?? null,
+      energy: checkIn?.energy ?? null,
+    };
+  });
+  const moodCounts: Record<Mood, number> = { low: 0, steady: 0, bright: 0 };
+  const recordedEnergy: number[] = [];
+  days.forEach((day) => {
+    if (day.mood) moodCounts[day.mood] += 1;
+    if (day.energy !== null) recordedEnergy.push(day.energy);
+  });
   return {
     days,
     checkInDays: days.filter((day) => day.checkIn).length,
     habitCompletions: days.reduce((total, day) => total + day.habitCompletions, 0),
+    moodCounts,
+    averageEnergy: recordedEnergy.length
+      ? Math.round(recordedEnergy.reduce((total, energy) => total + energy, 0) / recordedEnergy.length * 10) / 10
+      : null,
   };
 }
 
@@ -75,6 +90,30 @@ export function InsightsPage({ today = new Date() }: { today?: Date }) {
         </article>
       </section>
 
+      <section className="surface-card mood-summary-card section-card tone-journal" aria-labelledby="mood-summary-title">
+        <div>
+          <p className="eyebrow tone-journal-label">How you felt</p>
+          <h2 id="mood-summary-title">Your check-in picture</h2>
+          <p>These are the moods you recorded in the last seven days. Every kind of day belongs here.</p>
+        </div>
+        {summary.checkInDays === 0 ? (
+          <p className="mood-summary-empty">No check-ins this week yet. <Link to="/app/home">Start with today’s check-in.</Link></p>
+        ) : (
+          <div className="mood-summary-content">
+            <ul className="mood-breakdown" aria-label="Mood counts over the last seven days">
+              {(['low', 'steady', 'bright'] as const).map((mood) => (
+                <li key={mood} className={`mood-breakdown-${mood}`}>
+                  <span className="mood-breakdown-label">{mood[0].toUpperCase() + mood.slice(1)}</span>
+                  <span className="mood-breakdown-track" aria-hidden="true"><span style={{ width: `${summary.moodCounts[mood] / summary.checkInDays * 100}%` }} /></span>
+                  <strong>{summary.moodCounts[mood]}</strong>
+                </li>
+              ))}
+            </ul>
+            <p className="mood-energy-copy">Average energy: <strong>{summary.averageEnergy} of 5</strong> across {summary.checkInDays} check-in{summary.checkInDays === 1 ? '' : 's'}.</p>
+          </div>
+        )}
+      </section>
+
       <section className="surface-card weekly-card section-card tone-insights" aria-labelledby="weekly-title">
         <div className="weekly-card-heading">
           <div>
@@ -111,6 +150,15 @@ export function InsightsPage({ today = new Date() }: { today?: Date }) {
       <section className="insight-kind-note">
         <span aria-hidden="true">♡</span>
         <p>Progress here means showing up in ways that work for you. There is no streak to lose.</p>
+      </section>
+
+      <section className="surface-card weekly-reflection-card" aria-labelledby="weekly-reflection-title">
+        <div>
+          <p className="eyebrow tone-journal-label">A moment to reflect</p>
+          <h2 id="weekly-reflection-title">{WEEKLY_PROMPT}</h2>
+          <p>You can carry the question into your journal whenever you are ready.</p>
+        </div>
+        <Link className="button-primary compact-button" to="/app/journal?prompt=weekly">Write a weekly reflection <span aria-hidden="true">→</span></Link>
       </section>
     </div>
   );

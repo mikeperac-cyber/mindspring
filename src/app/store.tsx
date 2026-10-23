@@ -16,7 +16,7 @@ export interface AppStoreValue {
   toggleGoal(id: string): void;
   addHabit(title: string): boolean;
   toggleHabitToday(id: string, dateKey: string): void;
-  addJournalEntry(body: string): boolean;
+  addJournalEntry(body: string, prompt?: string): boolean;
   updateProfile(profile: Profile): boolean;
   dismissNotice(): void;
   clearData(): void;
@@ -116,14 +116,20 @@ export function AppProvider({ children, storage }: { children: ReactNode; storag
     if (habits.some((habit, index) => habit !== current.habits[index])) commitData({ ...current, habits });
   }, [commitData]);
 
-  const addJournalEntry = useCallback((body: string) => {
+  const addJournalEntry = useCallback((body: string, prompt?: string) => {
     const clean = body.trim();
     if (!clean) return false;
     const now = new Date();
     const current = dataRef.current;
     commitData({
       ...current,
-      journalEntries: [{ id: makeId('entry'), dateKey: getLocalDateKey(now), createdAt: now.toISOString(), body: clean }, ...current.journalEntries],
+      journalEntries: [{
+        id: makeId('entry'),
+        dateKey: getLocalDateKey(now),
+        createdAt: now.toISOString(),
+        body: clean,
+        ...(prompt?.trim() ? { prompt: prompt.trim() } : {}),
+      }, ...current.journalEntries],
     });
     return true;
   }, [commitData]);

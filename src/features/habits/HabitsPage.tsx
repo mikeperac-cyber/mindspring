@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react';
 import { Link } from 'react-router-dom';
-import { getLocalDateKey } from '../../app/model';
+import { getLastSevenDateKeys, getLocalDateKey } from '../../app/model';
 import { useAppStore } from '../../app/store';
 import './habits.css';
 
@@ -9,6 +9,7 @@ export function HabitsPage() {
   const [title, setTitle] = useState('');
   const [error, setError] = useState<string | null>(null);
   const dateKey = getLocalDateKey();
+  const recentDates = getLastSevenDateKeys();
   const completeCount = data.habits.filter((habit) => habit.completedDates.includes(dateKey)).length;
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -73,6 +74,7 @@ export function HabitsPage() {
             <ul className="habit-list">
               {data.habits.map((habit, index) => {
                 const completed = habit.completedDates.includes(dateKey);
+                const recentCount = recentDates.filter((date) => habit.completedDates.includes(date)).length;
                 return (
                   <li key={habit.id} className={completed ? 'habit-row completed' : 'habit-row'}>
                     <span className={`habit-row-marker habit-marker-${index % 4}`} aria-hidden="true">{['✳', '◌', '⌁', '✿'][index % 4]}</span>
@@ -89,6 +91,25 @@ export function HabitsPage() {
                       />
                       <span>{completed ? 'Done' : 'Mark done'}</span>
                     </label>
+                    <div className="habit-week">
+                      <div className="habit-week-heading"><span>Last 7 days</span><strong>{recentCount} of 7 marked done</strong></div>
+                      <ol className="habit-week-days" aria-label={`${habit.title} activity over the last seven days`}>
+                        {recentDates.map((recentDate) => {
+                          const [year, month, day] = recentDate.split('-').map(Number);
+                          const dayDate = new Date(year, month - 1, day, 12);
+                          const dayLabel = dayDate.toLocaleDateString(undefined, { weekday: 'short' });
+                          const fullLabel = dayDate.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
+                          const wasDone = habit.completedDates.includes(recentDate);
+                          return (
+                            <li key={recentDate} className={wasDone ? 'done' : ''}>
+                              <time dateTime={recentDate} aria-label={`${fullLabel}: ${wasDone ? 'marked done' : 'not marked done'}`}>
+                                <span>{dayLabel}</span><span aria-hidden="true">{wasDone ? '✓' : '—'}</span>
+                              </time>
+                            </li>
+                          );
+                        })}
+                      </ol>
+                    </div>
                   </li>
                 );
               })}
