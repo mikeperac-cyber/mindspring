@@ -79,7 +79,9 @@ export function AppProvider({ children, storage }: { children: ReactNode; storag
   const saveCheckIn = useCallback((input: DailyCheckIn) => {
     const current = dataRef.current;
     const checkIns = current.checkIns.filter((checkIn) => checkIn.dateKey !== input.dateKey);
-    commitData({ ...current, checkIns: [...checkIns, input].sort((a, b) => a.dateKey.localeCompare(b.dateKey)) });
+    const note = input.note?.trim();
+    const savedCheckIn = { dateKey: input.dateKey, mood: input.mood, energy: input.energy, ...(note ? { note } : {}) };
+    commitData({ ...current, checkIns: [...checkIns, savedCheckIn].sort((a, b) => a.dateKey.localeCompare(b.dateKey)) });
   }, [commitData]);
 
   const addGoal = useCallback((title: string) => {

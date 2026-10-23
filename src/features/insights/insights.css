@@ -43,9 +43,25 @@
 .weekly-day.checked-in .weekly-day-bar > span { height: 72%; background: var(--color-ochre); }
 .weekly-day-name { color: var(--color-muted); font-size: 0.68rem; }
 .weekly-note { margin: 13px 0 0; color: var(--color-muted); font-size: 0.68rem; }
+.activity-card { min-width: 0; padding: clamp(20px, 3vw, 30px); }
+.activity-heading { display: flex; align-items: end; justify-content: space-between; gap: 18px; }
+.activity-heading h2 { margin: 6px 0 7px; color: var(--color-plum); font-size: 1.23rem; letter-spacing: -0.045em; }
+.activity-heading .activity-range { margin: 0 0 8px; color: var(--color-feature-insights-ink); font-size: 0.72rem; font-weight: 750; }
+.activity-heading p:last-child { margin: 0; color: var(--color-muted); font-size: 0.78rem; line-height: 1.5; }
+.activity-legend { flex: 0 0 auto; color: var(--color-feature-insights-ink); font-size: 0.7rem; font-weight: 700; }
+.activity-map { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 8px; margin: 19px 0 0; padding: 0; list-style: none; }
+.activity-map li { min-width: 0; }
+.activity-day { display: flex; width: 100%; min-height: 54px; align-items: center; justify-content: space-between; gap: 4px; padding: 7px 10px; border: 1px solid var(--color-line); border-radius: 11px; color: var(--color-muted); background: var(--color-surface); font-size: 0.72rem; font-weight: 700; cursor: pointer; }
+.activity-day.active { border-color: var(--color-ochre); color: var(--color-feature-insights-ink); background: var(--color-ochre-tint); }
+.activity-day.selected { outline: 2px solid var(--color-plum); outline-offset: 2px; }
+.activity-day-symbol { font-size: 0.85rem; line-height: 1; }
+.activity-detail { margin-top: 17px; padding: 15px 17px; border: 1px solid var(--color-line); border-radius: 13px; color: var(--color-ink); background: var(--color-surface); }
+.activity-detail strong { color: var(--color-plum); font-size: 0.81rem; }
+.activity-detail p { margin: 6px 0 0; font-size: 0.76rem; line-height: 1.5; }
+.activity-detail blockquote { margin: 10px 0 0; padding-left: 11px; border-left: 3px solid var(--color-lilac); color: var(--color-feature-journal-ink); font-size: 0.76rem; line-height: 1.5; white-space: pre-wrap; overflow-wrap: anywhere; }
 .insight-kind-note { display: flex; align-items: flex-start; gap: 11px; padding: 15px 17px; border: 1px solid var(--color-line); border-radius: 15px; color: var(--color-feature-insights-ink); background: var(--color-ochre-tint); }
 .insight-kind-note > span { font-size: 1.05rem; }
 .insight-kind-note p { margin: 0; font-size: 0.78rem; line-height: 1.55; }
 .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; clip-path: inset(50%); border: 0; }
-@media (max-width: 767px) { .insights-summary-grid, .mood-summary-card { grid-template-columns: minmax(0, 1fr); gap: 12px; } .insight-stat-card { min-height: 155px; padding: 20px; } .weekly-card-heading { align-items: flex-start; flex-direction: column; } .weekly-chart { gap: 4px; padding-inline: 0; } .weekly-day { height: 145px; } .weekly-day-name { font-size: 0.61rem; } .weekly-reflection-card { align-items: stretch; flex-direction: column; } .weekly-reflection-card .button-primary { width: 100%; } }
+@media (max-width: 767px) { .insights-summary-grid, .mood-summary-card { grid-template-columns: minmax(0, 1fr); gap: 12px; } .insight-stat-card { min-height: 155px; padding: 20px; } .weekly-card-heading, .activity-heading { align-items: flex-start; flex-direction: column; } .weekly-chart { gap: 4px; padding-inline: 0; } .weekly-day { height: 145px; } .weekly-day-name { font-size: 0.61rem; } .activity-map { grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 5px; } .activity-day { min-height: 46px; flex-direction: column; justify-content: center; padding: 4px 2px; font-size: 0.67rem; } .weekly-reflection-card { align-items: stretch; flex-direction: column; } .weekly-reflection-card .button-primary { width: 100%; } }
 @media (prefers-reduced-motion: reduce) { .weekly-day-bar > span { transition: none; } }

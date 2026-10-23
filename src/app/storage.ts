@@ -49,7 +49,8 @@ function isAppData(value: unknown): value is AppData {
   const validCheckIns = Array.isArray(checkIns) && checkIns.every((checkIn) => (
     isRecord(checkIn) && isDateKey(checkIn.dateKey) &&
     ['low', 'steady', 'bright'].includes(String(checkIn.mood)) &&
-    Number.isInteger(checkIn.energy) && Number(checkIn.energy) >= 1 && Number(checkIn.energy) <= 5
+    Number.isInteger(checkIn.energy) && Number(checkIn.energy) >= 1 && Number(checkIn.energy) <= 5 &&
+    (checkIn.note === undefined || typeof checkIn.note === 'string')
   ));
   const validJournalEntries = Array.isArray(journalEntries) && journalEntries.every((entry) => (
     isRecord(entry) && typeof entry.id === 'string' && isDateKey(entry.dateKey) &&

@@ -17,16 +17,18 @@ function DailyCheckInCard() {
   const existingCheckIn = data.checkIns.find((checkIn) => checkIn.dateKey === dateKey);
   const [mood, setMood] = useState<Mood>(existingCheckIn?.mood ?? 'steady');
   const [energy, setEnergy] = useState<1 | 2 | 3 | 4 | 5>(existingCheckIn?.energy ?? 3);
+  const [note, setNote] = useState(existingCheckIn?.note ?? '');
   const [saved, setSaved] = useState(false);
 
   useEffect(() => {
     setMood(existingCheckIn?.mood ?? 'steady');
     setEnergy(existingCheckIn?.energy ?? 3);
-  }, [existingCheckIn?.mood, existingCheckIn?.energy]);
+    setNote(existingCheckIn?.note ?? '');
+  }, [existingCheckIn?.mood, existingCheckIn?.energy, existingCheckIn?.note]);
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    saveCheckIn({ dateKey, mood, energy });
+    saveCheckIn({ dateKey, mood, energy, note });
     setSaved(true);
   }
 
@@ -70,11 +72,43 @@ function DailyCheckInCard() {
           />
           <div className="energy-scale" aria-hidden="true"><span>Running low</span><span>Full of energy</span></div>
         </div>
+        <div className="checkin-note-field">
+          <label htmlFor="checkin-note">One thing on your mind <span>(optional)</span></label>
+          <textarea id="checkin-note" value={note} maxLength={180} rows={2} placeholder="A few words are enough…" onChange={(event) => { setNote(event.target.value); setSaved(false); }} />
+          <small>Keep it short. You can update today’s note later.</small>
+        </div>
         <div className="checkin-submit-row">
           <button className="button-primary compact-button" type="submit">Save today’s check-in <span aria-hidden="true">→</span></button>
           {saved && <span className="saved-note" role="status">Check-in saved. Thanks for checking in.</span>}
         </div>
       </form>
+    </section>
+  );
+}
+
+function DailyGuide() {
+  const { data } = useAppStore();
+  const dateKey = getLocalDateKey();
+  const checkIn = data.checkIns.find((item) => item.dateKey === dateKey);
+  const openHabit = data.habits.find((habit) => !habit.completedDates.includes(dateKey));
+  const guidance = !checkIn
+    ? { heading: 'Begin with a pause.', copy: 'Notice how you feel first. Your next step can follow from there.', label: 'Go to check-in', to: '#checkin-title' }
+    : checkIn.mood === 'low' || checkIn.energy <= 2
+      ? { heading: 'Make the next step tiny.', copy: 'A gentle action or a few honest words are enough for today.', label: openHabit ? 'Choose a small habit' : 'Write a reflection', to: openHabit ? '/app/habits' : '/app/journal' }
+      : checkIn.mood === 'bright' && checkIn.energy >= 4
+        ? { heading: 'Use this energy kindly.', copy: 'Pick one meaningful action, then leave room to rest.', label: openHabit ? 'See your habits' : 'Capture the moment', to: openHabit ? '/app/habits' : '/app/journal' }
+        : { heading: 'Keep a gentle rhythm.', copy: 'One small practice can help you stay connected to your intention.', label: openHabit ? 'See your habits' : 'Reflect in your journal', to: openHabit ? '/app/habits' : '/app/journal' };
+
+  return (
+    <section className="surface-card daily-guide section-card tone-journal" aria-labelledby="daily-guide-title">
+      <div>
+        <p className="eyebrow tone-journal-label">Your gentle guide</p>
+        <h2 id="daily-guide-title">{guidance.heading}</h2>
+        <p>{guidance.copy}</p>
+      </div>
+      {guidance.to.startsWith('#')
+        ? <a className="daily-guide-link" href={guidance.to}>{guidance.label} <span aria-hidden="true">→</span></a>
+        : <Link className="daily-guide-link" to={guidance.to}>{guidance.label} <span aria-hidden="true">→</span></Link>}
     </section>
   );
 }
@@ -180,6 +214,8 @@ export function HomePage() {
         <DailyCheckInCard />
         <FocusHabits />
       </div>
+
+      <DailyGuide />
 
       <section className="growth-space" aria-labelledby="growth-space-title">
         <div className="section-title-row growth-space-title-row">

@@ -21,6 +21,7 @@ export interface DailyCheckIn {
   dateKey: string;
   mood: Mood;
   energy: 1 | 2 | 3 | 4 | 5;
+  note?: string;
 }
 
 export interface JournalEntry {
@@ -56,11 +57,15 @@ export function getLocalDateKey(date: Date = new Date()): string {
   return `${year}-${month}-${day}`;
 }
 
-export function getLastSevenDateKeys(today: Date = new Date()): string[] {
-  return Array.from({ length: 7 }, (_, index) => {
-    const date = new Date(today.getFullYear(), today.getMonth(), today.getDate() - (6 - index), 12);
+export function getRecentDateKeys(count: number, today: Date = new Date()): string[] {
+  return Array.from({ length: count }, (_, index) => {
+    const date = new Date(today.getFullYear(), today.getMonth(), today.getDate() - (count - 1 - index), 12);
     return getLocalDateKey(date);
   });
+}
+
+export function getLastSevenDateKeys(today: Date = new Date()): string[] {
+  return getRecentDateKeys(7, today);
 }
 
 export interface TodayProgress {
