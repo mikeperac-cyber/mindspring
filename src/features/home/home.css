@@ -39,6 +39,10 @@
   font-weight: 680;
 }
 
+.home-checkin-shortcut {
+  display: none;
+}
+
 .home-avatar {
   display: grid;
   width: 48px;
@@ -211,6 +215,10 @@
   padding: 24px 25px;
 }
 
+#checkin-title {
+  scroll-margin-top: 92px;
+}
+
 .card-heading-row {
   justify-content: flex-start;
   gap: 12px;
@@ -380,6 +388,28 @@
 .saved-note {
   color: var(--color-success);
   font-size: 0.71rem;
+}
+
+.checkin-saved-next {
+  display: grid;
+  justify-items: start;
+  gap: 5px;
+}
+
+.checkin-saved-next a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 6px;
+  color: var(--color-feature-habits-ink);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.checkin-saved-next a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .section-title-row {
@@ -588,6 +618,27 @@
     max-width: 295px;
     font-size: 0.81rem;
     line-height: 1.5;
+  }
+
+  .home-checkin-shortcut {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+    gap: 12px;
+    margin-top: 12px;
+    padding: 0 14px;
+    border: 1px solid var(--color-line);
+    border-radius: 999px;
+    color: var(--color-plum);
+    background: var(--color-plum-tint);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .home-checkin-shortcut:hover {
+    border-color: var(--color-berry);
+    background: var(--color-rose-tint);
   }
 
   .home-avatar {

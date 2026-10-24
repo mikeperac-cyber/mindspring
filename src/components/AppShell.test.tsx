@@ -29,6 +29,7 @@ describe('AppShell navigation', () => {
     expect(mobile.getByRole('link', { name: 'Home' })).toHaveAttribute('href', '/app/home');
     expect(mobile.getByRole('link', { name: 'Goals' })).toHaveAttribute('href', '/app/goals');
     expect(mobile.getByRole('button', { name: 'Add' })).toBeInTheDocument();
+    expect(mobile.getByRole('link', { name: 'Insights' })).toHaveAttribute('href', '/app/insights');
     expect(mobile.getByRole('link', { name: 'Journal' })).toHaveAttribute('href', '/app/journal');
     expect(mobile.getByRole('link', { name: 'Profile' })).toHaveAttribute('href', '/app/profile');
     expect(screen.getByText('Dashboard content')).toBeInTheDocument();

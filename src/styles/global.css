@@ -330,7 +330,7 @@ a {
     align-items: center;
     justify-content: space-around;
     min-height: calc(72px + env(safe-area-inset-bottom));
-    padding: 8px 9px calc(8px + env(safe-area-inset-bottom));
+    padding: 8px 6px calc(8px + env(safe-area-inset-bottom));
     border-top: 1px solid var(--color-line);
     background: color-mix(in srgb, var(--color-surface) 96%, transparent);
     backdrop-filter: blur(18px);
@@ -339,13 +339,13 @@ a {
   .mobile-nav-link,
   .mobile-add-button {
     display: flex;
-    min-width: 56px;
+    min-width: 48px;
     min-height: 52px;
     align-items: center;
     flex-direction: column;
     justify-content: center;
     gap: 2px;
-    padding: 6px 8px;
+    padding: 6px 3px;
     border: 0;
     border-radius: 15px;
     color: var(--color-muted);

@@ -15,6 +15,12 @@ const moods: { value: Mood; label: string; emoji: string }[] = [
 function DailyCheckInCard({ dateKey }: { dateKey: string }) {
   const { data, saveCheckIn } = useAppStore();
   const existingCheckIn = data.checkIns.find((checkIn) => checkIn.dateKey === dateKey);
+  const openHabitExists = data.habits.some((habit) => !habit.completedDates.includes(dateKey));
+  const nextAction = openHabitExists
+    ? { label: 'Next: choose a small habit', to: '/app/habits' }
+    : data.habits.length === 0
+      ? { label: 'Next: add one small habit', to: '/app/habits' }
+      : { label: 'Next: write a reflection', to: '/app/journal' };
   const [mood, setMood] = useState<Mood>(existingCheckIn?.mood ?? 'steady');
   const [energy, setEnergy] = useState<1 | 2 | 3 | 4 | 5>(existingCheckIn?.energy ?? 3);
   const [note, setNote] = useState(existingCheckIn?.note ?? '');
@@ -24,7 +30,6 @@ function DailyCheckInCard({ dateKey }: { dateKey: string }) {
     setMood(existingCheckIn?.mood ?? 'steady');
     setEnergy(existingCheckIn?.energy ?? 3);
     setNote(existingCheckIn?.note ?? '');
-    setSaved(false);
   }, [dateKey, existingCheckIn?.mood, existingCheckIn?.energy, existingCheckIn?.note]);
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -80,7 +85,12 @@ function DailyCheckInCard({ dateKey }: { dateKey: string }) {
         </div>
         <div className="checkin-submit-row">
           <button className="button-primary compact-button" type="submit">Save today’s check-in <span aria-hidden="true">→</span></button>
-          {saved && <span className="saved-note" role="status">Check-in saved. Thanks for checking in.</span>}
+          {saved && (
+            <div className="checkin-saved-next">
+              <span className="saved-note" role="status">Check-in saved. Thanks for checking in.</span>
+              <Link to={nextAction.to}>{nextAction.label} <span aria-hidden="true">→</span></Link>
+            </div>
+          )}
         </div>
       </form>
     </section>
@@ -187,6 +197,7 @@ export function HomePage() {
   const journalCount = data.journalEntries.length;
   const dateLabel = today.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
   const dailyPrompt = DAILY_PROMPTS[getDailyPromptIndex(dateKey)];
+  const hasTodayCheckIn = data.checkIns.some((checkIn) => checkIn.dateKey === dateKey);
 
   return (
     <div className="home-page">
@@ -195,6 +206,10 @@ export function HomePage() {
           <p className="eyebrow">{dateLabel} · A moment for you</p>
           <h1>Good morning, {profile?.displayName ?? 'friend'}.</h1>
           <p className="home-intention">Today, make a little room for <strong>{profile?.intention ?? 'what matters to you'}</strong>.</p>
+          <a className="home-checkin-shortcut" href="#checkin-title">
+            <span>{hasTodayCheckIn ? 'Review today’s check-in' : 'Start today’s check-in'}</span>
+            <span aria-hidden="true">↓</span>
+          </a>
         </div>
         <Link className="home-avatar" to="/app/profile" aria-label="Open your profile">{profile?.displayName.slice(0, 1).toUpperCase() ?? 'M'}</Link>
       </header>

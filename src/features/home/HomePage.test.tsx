@@ -30,15 +30,17 @@ describe('Home dashboard', () => {
   it('saves and updates one check-in per local day and updates momentum', async () => {
     const user = userEvent.setup();
     seedProfileAndHabit();
-    renderHome();
+    const { container } = renderHome();
 
     expect(screen.getByRole('heading', { name: 'Good morning, Maya.' })).toBeInTheDocument();
+    expect(container.querySelector('.home-checkin-shortcut')).toHaveAttribute('href', '#checkin-title');
     expect(screen.getByText('0 of 2 practices complete')).toBeInTheDocument();
 
     await user.click(screen.getByRole('radio', { name: 'Steady' }));
     fireEvent.change(screen.getByRole('slider', { name: 'Energy level' }), { target: { value: '3' } });
     await user.click(screen.getByRole('button', { name: /Save today.s check-in/ }));
     expect(screen.getByText('Check-in saved. Thanks for checking in.')).toHaveAttribute('role', 'status');
+    expect(screen.getByRole('link', { name: /Next: choose a small habit/ })).toHaveAttribute('href', '/app/habits');
     expect(screen.getByText('1 of 2 practices complete')).toBeInTheDocument();
 
     await user.click(screen.getByRole('radio', { name: 'Bright' }));

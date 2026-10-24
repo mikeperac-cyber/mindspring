@@ -17,6 +17,7 @@ const desktopLinks = [
 const mobileLinks = [
   { to: '/app/home', label: 'Home', icon: 'home', end: true },
   { to: '/app/goals', label: 'Goals', icon: 'goals' },
+  { to: '/app/insights', label: 'Insights', icon: 'insights' },
   { to: '/app/journal', label: 'Journal', icon: 'journal' },
   { to: '/app/profile', label: 'Profile', icon: 'profile' },
 ];
