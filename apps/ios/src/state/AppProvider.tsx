@@ -28,7 +28,7 @@ export interface AppStoreValue {
   storageAvailable: boolean;
   notice: string | null;
   completeOnboarding(profile: Profile): Promise<boolean>;
-  saveCheckIn(input: DailyCheckIn): Promise<void>;
+  saveCheckIn(input: DailyCheckIn): Promise<boolean>;
   addGoal(title: string): Promise<boolean>;
   toggleGoal(id: string): Promise<void>;
   addHabit(title: string): Promise<boolean>;
@@ -123,8 +123,8 @@ export function AppProvider({
     return true;
   }, [commitData]);
 
-  const saveCheckIn = useCallback(async (input: DailyCheckIn): Promise<void> => {
-    if (!isDateKey(input.dateKey)) return;
+  const saveCheckIn = useCallback(async (input: DailyCheckIn): Promise<boolean> => {
+    if (!isDateKey(input.dateKey)) return false;
     const current = dataRef.current;
     const note = input.note?.trim();
     const savedCheckIn: DailyCheckIn = {
@@ -137,18 +137,18 @@ export function AppProvider({
       .filter((checkIn) => checkIn.dateKey !== input.dateKey)
       .concat(savedCheckIn)
       .sort((left, right) => left.dateKey.localeCompare(right.dateKey));
-    await commitData({ ...current, checkIns });
+    return commitData({ ...current, checkIns });
   }, [commitData]);
 
   const addGoal = useCallback(async (title: string): Promise<boolean> => {
     const clean = title.trim();
     if (!clean) return false;
     const current = dataRef.current;
-    await commitData({
+    const saved = await commitData({
       ...current,
       goals: [...current.goals, { id: makeId('goal'), title: clean, completed: false }],
     });
-    return true;
+    return saved;
   }, [commitData]);
 
   const toggleGoal = useCallback(async (id: string): Promise<void> => {
@@ -161,11 +161,11 @@ export function AppProvider({
     const clean = title.trim();
     if (!clean) return false;
     const current = dataRef.current;
-    await commitData({
+    const saved = await commitData({
       ...current,
       habits: [...current.habits, { id: makeId('habit'), title: clean, completedDates: [] }],
     });
-    return true;
+    return saved;
   }, [commitData]);
 
   const toggleHabitToday = useCallback(async (id: string, dateKey: string): Promise<void> => {
@@ -187,7 +187,7 @@ export function AppProvider({
     const now = new Date();
     const current = dataRef.current;
     const cleanedPrompt = prompt?.trim();
-    await commitData({
+    const saved = await commitData({
       ...current,
       journalEntries: [{
         id: makeId('entry'),
@@ -197,7 +197,7 @@ export function AppProvider({
         ...(cleanedPrompt ? { prompt: cleanedPrompt } : {}),
       }, ...current.journalEntries],
     });
-    return true;
+    return saved;
   }, [commitData]);
 
   const updateProfile = useCallback(async (profile: Profile): Promise<boolean> => {

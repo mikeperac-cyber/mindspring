@@ -1,5 +1,5 @@
-import { ScreenPlaceholder } from '../../src/components/ScreenPlaceholder';
+import { HomeScreen } from '../../src/features/home/HomeScreen';
 
 export default function TodayRoute() {
-  return <ScreenPlaceholder title="Today" detail="A small step can be enough for today." />;
+  return <HomeScreen />;
 }

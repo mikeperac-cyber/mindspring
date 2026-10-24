@@ -1,5 +1,5 @@
-import { ScreenPlaceholder } from '../src/components/ScreenPlaceholder';
+import { HabitsScreen } from '../src/features/habits/HabitsScreen';
 
 export default function HabitsRoute() {
-  return <ScreenPlaceholder title="Habits" detail="Small actions, repeated gently." />;
+  return <HabitsScreen />;
 }
