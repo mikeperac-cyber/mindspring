@@ -2,14 +2,22 @@
   "name": "mindspring",
   "private": true,
   "type": "module",
+  "workspaces": [
+    "apps/ios",
+    "packages/mindspring-core"
+  ],
   "scripts": {
     "dev": "vite --host 0.0.0.0",
     "build": "tsc -p tsconfig.json && vite build",
     "preview": "vite preview --host 0.0.0.0",
     "test": "vitest",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "ios:start": "npm run start --workspace @mindspring/ios",
+    "test:ios": "npm run test --workspace @mindspring/ios --",
+    "typecheck:ios": "npm run typecheck --workspace @mindspring/ios"
   },
   "dependencies": {
+    "@mindspring/core": "1.0.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "react-router-dom": "^7.18.4"

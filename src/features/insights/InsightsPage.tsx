@@ -1,80 +1,17 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getLastSevenDateKeys, getLocalDateKey, getRecentDateKeys, type AppData, type Mood } from '../../app/model';
+import { getLocalDateKey } from '../../app/model';
+import {
+  summarizeLastSevenDays,
+  summarizeLastThirtyDays,
+} from '@mindspring/core';
 import { WEEKLY_PROMPT } from '../../app/prompts';
 import { useAppStore } from '../../app/store';
 import { useLocalToday } from '../../app/useLocalToday';
 import './insights.css';
 
-export interface WeeklyDay {
-  dateKey: string;
-  checkIn: boolean;
-  habitCompletions: number;
-  mood: Mood | null;
-  energy: number | null;
-}
-
-export interface WeeklySummary {
-  days: WeeklyDay[];
-  checkInDays: number;
-  habitCompletions: number;
-  moodCounts: Record<Mood, number>;
-  averageEnergy: number | null;
-}
-
-interface ActivityDay {
-  dateKey: string;
-  checkIn: AppData['checkIns'][number] | null;
-  habitCompletions: number;
-  reflections: number;
-}
-
-function summarizeLastThirtyDays(data: AppData, today: Date): ActivityDay[] {
-  const checkIns = new Map(data.checkIns.map((checkIn) => [checkIn.dateKey, checkIn]));
-  const reflections = new Map<string, number>();
-  data.journalEntries.forEach((entry) => reflections.set(entry.dateKey, (reflections.get(entry.dateKey) ?? 0) + 1));
-  const recentDates = getRecentDateKeys(30, today);
-  const recentDateSet = new Set(recentDates);
-  const habitCompletions = new Map<string, number>();
-  data.habits.forEach((habit) => habit.completedDates.forEach((dateKey) => {
-    if (recentDateSet.has(dateKey)) habitCompletions.set(dateKey, (habitCompletions.get(dateKey) ?? 0) + 1);
-  }));
-  return recentDates.map((dateKey) => ({
-    dateKey,
-    checkIn: checkIns.get(dateKey) ?? null,
-    habitCompletions: habitCompletions.get(dateKey) ?? 0,
-    reflections: reflections.get(dateKey) ?? 0,
-  }));
-}
-
-export function summarizeLastSevenDays(data: AppData, today: Date = new Date()): WeeklySummary {
-  const checkInsByDate = new Map(data.checkIns.map((checkIn) => [checkIn.dateKey, checkIn]));
-  const days: WeeklyDay[] = getLastSevenDateKeys(today).map((dateKey) => {
-    const checkIn = checkInsByDate.get(dateKey);
-    return {
-      dateKey,
-      checkIn: Boolean(checkIn),
-      habitCompletions: data.habits.filter((habit) => habit.completedDates.includes(dateKey)).length,
-      mood: checkIn?.mood ?? null,
-      energy: checkIn?.energy ?? null,
-    };
-  });
-  const moodCounts: Record<Mood, number> = { low: 0, steady: 0, bright: 0 };
-  const recordedEnergy: number[] = [];
-  days.forEach((day) => {
-    if (day.mood) moodCounts[day.mood] += 1;
-    if (day.energy !== null) recordedEnergy.push(day.energy);
-  });
-  return {
-    days,
-    checkInDays: days.filter((day) => day.checkIn).length,
-    habitCompletions: days.reduce((total, day) => total + day.habitCompletions, 0),
-    moodCounts,
-    averageEnergy: recordedEnergy.length
-      ? Math.round(recordedEnergy.reduce((total, energy) => total + energy, 0) / recordedEnergy.length * 10) / 10
-      : null,
-  };
-}
+export { summarizeLastSevenDays } from '@mindspring/core';
+export type { ActivityDay, WeeklySummary } from '@mindspring/core';
 
 function displayDay(dateKey: string): { short: string; long: string } {
   const [year, month, day] = dateKey.split('-').map(Number);

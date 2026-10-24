@@ -77,7 +77,7 @@
 
 ### Task 1: Shared core and Expo project shell
 
-**Files:** Create `packages/mindspring-core/**`, Expo configuration, root layout, and static tab shell in `apps/ios/**`; modify root `package.json` and lockfile; adapt `src/app/model.ts`, `src/app/theme.ts`, and Insights imports.
+**Files:** Create `packages/mindspring-core/**`, Expo configuration, root layout, and static tab shell in `apps/ios/**`; modify root `package.json` and lockfile; adapt `src/app/model.ts`, `src/app/storage.ts`, `src/app/theme.ts`, `src/app/prompts.ts`, and Insights imports.
 
 - [ ] Write failing tests named `formatsLocalDateKeys`, `buildsRecentDatesAcrossMonthAndYearBoundaries`, `rejectsImpossibleDateKeys`, `calculatesMomentumFromCheckInAndHabits`, `summarizesSevenAndThirtyDayActivity`, and `providesThreeThemesForBothAppearances`; assert local `YYYY-MM-DD` output, chronological date keys, rejection of February 30, the completed/total/percentage tuple, check-in/habit/reflection counts, and distinct semantic tokens for Berry/Coastal/Grove light/dark themes.
 - [ ] Run `npm run test -- --run packages/mindspring-core`; confirm the new core tests fail before implementation.
@@ -98,19 +98,19 @@
 
 ### Task 3: Today, check-in, habits, and Add sheet
 
-**Files:** Create Today, check-in, and Habits screens under `apps/ios/app/` and feature components/tests under `apps/ios/src/features/home/` and `apps/ios/src/features/habits/`.
+**Files:** Create Today, check-in, Habits, and Journal compose routes under `apps/ios/app/`; create `apps/ios/src/components/AddSheet.tsx`, `apps/ios/src/features/home/HomeScreen.tsx`, `CheckInCard.tsx`, `apps/ios/src/features/habits/HabitsScreen.tsx`, and `apps/ios/src/features/journal/JournalComposer.tsx` with focused tests.
 
-- [ ] Write failing tests named `savesCheckInAndReplacesSameDayEntry`, `updatesMomentumAfterHabitToggle`, `showsContextualNextAction`, and `refreshesDateOnForeground`; assert saved values, a single same-day entry, updated progress, correct route, and current local date.
-- [ ] Run `npm run test:ios -- --runInBand apps/ios/src/features/home/HomeScreen.test.tsx apps/ios/src/features/habits/HabitsScreen.test.tsx`; confirm failures before implementation.
+- [ ] Write failing tests named `savesCheckInAndReplacesSameDayEntry`, `updatesMomentumAfterHabitToggle`, `showsContextualNextAction`, `refreshesDateOnForeground`, `opensJournalComposerFromAddSheet`, and `createsJournalEntryAndRejectsBlankText`; assert saved values, a single same-day entry, updated progress, correct routes, current local date, blank rejection, and saved journal content.
+- [ ] Run `npm run test:ios -- --runInBand apps/ios/src/features/home/HomeScreen.test.tsx apps/ios/src/features/habits/HabitsScreen.test.tsx apps/ios/src/features/journal/JournalComposer.test.tsx`; confirm failures before implementation.
 - [ ] Build Today with the daily prompt, momentum summary, check-in form, focus habits, and direct habit navigation using safe-area-aware scrolling.
-- [ ] Build the Habits screen and Add sheet with labeled native controls, blank-input validation, pending/success/error states, and draft-preserving dismissal.
+- [ ] Build the Habits screen and Add sheet with labeled native controls, blank-input validation, pending/success/error states, and draft-preserving dismissal. The sheet routes journal creation to the composer added in this task.
 - [ ] Verify tracker state after route changes and simulated local-date rollover.
 
 ### Task 4: Goals, Journal, Insights, and Profile
 
-**Files:** Create `apps/ios/app/(tabs)/goals.tsx`, `journal.tsx`, `insights.tsx`, `profile.tsx`, `apps/ios/app/journal/compose.tsx`, and their feature components/tests.
+**Files:** Create `apps/ios/app/(tabs)/goals.tsx`, `journal.tsx`, `insights.tsx`, `profile.tsx`, and their feature components/tests; extend the Task 3 Journal composer with prompt prefill and saved-entry navigation.
 
-- [ ] Write failing tests named `createsAndCompletesGoal`, `createsJournalEntryAndRejectsBlankText`, `keepsSaveAvailableForLongJournalDrafts`, `showsSelectedActivityDetails`, `persistsThemeAndProfile`, and `requiresConfirmationBeforeClear`; assert persisted content, reachable save action, shared summary values, selected-day text, selected appearance, and non-destructive cancel behavior.
+- [ ] Write failing tests named `createsAndCompletesGoal`, `listsSavedReflectionsNewestFirst`, `keepsSaveAvailableForLongJournalDrafts`, `showsSelectedActivityDetails`, `persistsThemeAndProfile`, and `requiresConfirmationBeforeClear`; assert persisted content, newest-first entry order, reachable save action, shared summary values, selected-day text, selected appearance, and non-destructive cancel behavior.
 - [ ] Run `npm run test:ios -- --runInBand apps/ios/src/features/goals/GoalsScreen.test.tsx apps/ios/src/features/journal/JournalScreen.test.tsx apps/ios/src/features/insights/InsightsScreen.test.tsx apps/ios/src/features/profile/ProfileScreen.test.tsx`; confirm failures before implementation.
 - [ ] Implement native feature screens using shared data/progress contracts and the selected theme tokens.
 - [ ] Provide accessible text summaries for activity visuals, selected-day details, and explicit labels for all chart controls.
