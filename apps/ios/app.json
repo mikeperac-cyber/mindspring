@@ -1,0 +1,19 @@
+{
+  "expo": {
+    "name": "MINDSPRING",
+    "slug": "mindspring-ios",
+    "scheme": "mindspring",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.mindspring.ios",
+      "deploymentTarget": "16.4"
+    },
+    "plugins": ["expo-router"],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}

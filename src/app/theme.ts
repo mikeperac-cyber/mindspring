@@ -1,18 +1,11 @@
 import type { StorageLike } from './storage';
+import { isThemeId } from '@mindspring/core';
+import type { ThemeId } from '@mindspring/core';
+
+export { getThemeTokens, isThemeId, themes } from '@mindspring/core';
+export type { ThemeAppearance, ThemeId, ThemeTokens } from '@mindspring/core';
 
 export const THEME_KEY = 'mindspring:theme';
-
-export const themes = [
-  { id: 'berry', name: 'Berry', description: 'Warm plum and rose' },
-  { id: 'coastal', name: 'Coastal', description: 'Cool sea and sky' },
-  { id: 'grove', name: 'Grove', description: 'Soft green and earth' },
-] as const;
-
-export type ThemeId = (typeof themes)[number]['id'];
-
-export function isThemeId(value: unknown): value is ThemeId {
-  return themes.some((theme) => theme.id === value);
-}
 
 function browserStorage(): StorageLike | null {
   try {

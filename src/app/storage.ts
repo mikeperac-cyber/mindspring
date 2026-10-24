@@ -1,4 +1,6 @@
-import { createEmptyAppData, type AppData } from './model';
+import { createEmptyAppData, isAppData, type AppData } from '@mindspring/core';
+
+export { isAppData } from '@mindspring/core';
 
 export const STORAGE_KEY = 'mindspring:v1';
 
@@ -23,51 +25,6 @@ function getBrowserStorage(): StorageLike | null {
   } catch {
     return null;
   }
-}
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null && !Array.isArray(value);
-}
-
-function isDateKey(value: unknown): value is string {
-  if (typeof value !== 'string') return false;
-  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
-  if (!match) return false;
-  const [, yearPart, monthPart, dayPart] = match;
-  const year = Number(yearPart);
-  const month = Number(monthPart);
-  const day = Number(dayPart);
-  const date = new Date(0);
-  date.setUTCFullYear(year, month - 1, day);
-  return date.getUTCFullYear() === year && date.getUTCMonth() === month - 1 && date.getUTCDate() === day;
-}
-
-function isAppData(value: unknown): value is AppData {
-  if (!isRecord(value)) return false;
-  const { profile, goals, habits, checkIns, journalEntries } = value;
-  const validProfile = profile === null || (
-    isRecord(profile) && typeof profile.displayName === 'string' && typeof profile.intention === 'string'
-  );
-  const validGoals = Array.isArray(goals) && goals.every((goal) => (
-    isRecord(goal) && typeof goal.id === 'string' && typeof goal.title === 'string' && typeof goal.completed === 'boolean'
-  ));
-  const validHabits = Array.isArray(habits) && habits.every((habit) => (
-    isRecord(habit) && typeof habit.id === 'string' && typeof habit.title === 'string' &&
-    Array.isArray(habit.completedDates) && habit.completedDates.every(isDateKey)
-  ));
-  const validCheckIns = Array.isArray(checkIns) && checkIns.every((checkIn) => (
-    isRecord(checkIn) && isDateKey(checkIn.dateKey) &&
-    ['low', 'steady', 'bright'].includes(String(checkIn.mood)) &&
-    Number.isInteger(checkIn.energy) && Number(checkIn.energy) >= 1 && Number(checkIn.energy) <= 5 &&
-    (checkIn.note === undefined || typeof checkIn.note === 'string')
-  ));
-  const validJournalEntries = Array.isArray(journalEntries) && journalEntries.every((entry) => (
-    isRecord(entry) && typeof entry.id === 'string' && isDateKey(entry.dateKey) &&
-    typeof entry.createdAt === 'string' && typeof entry.body === 'string' &&
-    (entry.prompt === undefined || typeof entry.prompt === 'string')
-  ));
-
-  return validProfile && validGoals && validHabits && validCheckIns && validJournalEntries;
 }
 
 export function loadAppData(storage?: StorageLike | null): LoadAppDataResult {
