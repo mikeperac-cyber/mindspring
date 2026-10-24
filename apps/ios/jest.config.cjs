@@ -1,6 +1,6 @@
 module.exports = {
   preset: 'jest-expo',
-  testMatch: ['<rootDir>/src/**/*.test.ts', '<rootDir>/src/**/*.test.tsx'],
+  setupFiles: ['<rootDir>/jest.setup.cjs'],
   moduleNameMapper: {
     '^@mindspring/core$': '<rootDir>/../../packages/mindspring-core/src/index.ts',
   },

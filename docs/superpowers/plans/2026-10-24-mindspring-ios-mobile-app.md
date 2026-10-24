@@ -90,8 +90,8 @@
 
 **Files:** Create `apps/ios/src/storage/nativeStorage.ts`, `apps/ios/src/state/AppProvider.tsx`, `apps/ios/app/index.tsx`, `apps/ios/app/welcome.tsx`, and `apps/ios/src/theme/**`; update the root route layout to gate on hydration.
 
-- [ ] Write failing tests named `loadsEmptyData`, `recoversFromMalformedJson`, `roundTripsAppData`, `showsNoticeOnStorageFailure`, `waitsForHydrationBeforeRouting`, `rejectsBlankOnboarding`, and `clearsDataAndTheme`; assert safe empty state, notice text, persisted profile/activity/theme, and welcome routing.
-- [ ] Run `npm run test:ios -- --runInBand apps/ios/src/storage/nativeStorage.test.ts apps/ios/src/state/AppProvider.test.tsx`; confirm failures before implementation.
+- [ ] Write failing tests named `loadsEmptyData`, `recoversFromMalformedJson`, `roundTripsAppData`, `showsNoticeOnStorageFailure`, `showsWriteFailureNotice`, `waitsForHydrationBeforeRouting`, `rejectsBlankOnboarding`, and `clearsDataAndTheme`; assert safe empty state, notice text, persisted profile/activity/theme, and welcome routing.
+- [ ] Run `npm run test:ios -- --runInBand src/storage/nativeStorage.test.ts src/state/AppProvider.test.tsx`; confirm failures before implementation.
 - [ ] Implement validated AsyncStorage persistence, visible recovery/write notices, profile route gating, and the native state actions.
 - [ ] Add three theme token sets with system light/dark variants and labels that do not rely on color alone.
 - [ ] Run the focused tests and verify a profile and selected theme survive an app restart in the test harness.
@@ -101,7 +101,7 @@
 **Files:** Create Today, check-in, Habits, and Journal compose routes under `apps/ios/app/`; create `apps/ios/src/components/AddSheet.tsx`, `apps/ios/src/features/home/HomeScreen.tsx`, `CheckInCard.tsx`, `apps/ios/src/features/habits/HabitsScreen.tsx`, and `apps/ios/src/features/journal/JournalComposer.tsx` with focused tests.
 
 - [ ] Write failing tests named `savesCheckInAndReplacesSameDayEntry`, `updatesMomentumAfterHabitToggle`, `showsContextualNextAction`, `refreshesDateOnForeground`, `opensJournalComposerFromAddSheet`, and `createsJournalEntryAndRejectsBlankText`; assert saved values, a single same-day entry, updated progress, correct routes, current local date, blank rejection, and saved journal content.
-- [ ] Run `npm run test:ios -- --runInBand apps/ios/src/features/home/HomeScreen.test.tsx apps/ios/src/features/habits/HabitsScreen.test.tsx apps/ios/src/features/journal/JournalComposer.test.tsx`; confirm failures before implementation.
+- [ ] Run `npm run test:ios -- --runInBand src/features/home/HomeScreen.test.tsx src/features/habits/HabitsScreen.test.tsx src/features/journal/JournalComposer.test.tsx`; confirm failures before implementation.
 - [ ] Build Today with the daily prompt, momentum summary, check-in form, focus habits, and direct habit navigation using safe-area-aware scrolling.
 - [ ] Build the Habits screen and Add sheet with labeled native controls, blank-input validation, pending/success/error states, and draft-preserving dismissal. The sheet routes journal creation to the composer added in this task.
 - [ ] Verify tracker state after route changes and simulated local-date rollover.
@@ -111,7 +111,7 @@
 **Files:** Create `apps/ios/app/(tabs)/goals.tsx`, `journal.tsx`, `insights.tsx`, `profile.tsx`, and their feature components/tests; extend the Task 3 Journal composer with prompt prefill and saved-entry navigation.
 
 - [ ] Write failing tests named `createsAndCompletesGoal`, `listsSavedReflectionsNewestFirst`, `keepsSaveAvailableForLongJournalDrafts`, `showsSelectedActivityDetails`, `persistsThemeAndProfile`, and `requiresConfirmationBeforeClear`; assert persisted content, newest-first entry order, reachable save action, shared summary values, selected-day text, selected appearance, and non-destructive cancel behavior.
-- [ ] Run `npm run test:ios -- --runInBand apps/ios/src/features/goals/GoalsScreen.test.tsx apps/ios/src/features/journal/JournalScreen.test.tsx apps/ios/src/features/insights/InsightsScreen.test.tsx apps/ios/src/features/profile/ProfileScreen.test.tsx`; confirm failures before implementation.
+- [ ] Run `npm run test:ios -- --runInBand src/features/goals/GoalsScreen.test.tsx src/features/journal/JournalScreen.test.tsx src/features/insights/InsightsScreen.test.tsx src/features/profile/ProfileScreen.test.tsx`; confirm failures before implementation.
 - [ ] Implement native feature screens using shared data/progress contracts and the selected theme tokens.
 - [ ] Provide accessible text summaries for activity visuals, selected-day details, and explicit labels for all chart controls.
 - [ ] Verify returning from a pushed screen or dismissed sheet preserves the intended tab state and unsaved journal drafts.
