@@ -1,5 +1,5 @@
-import { ScreenPlaceholder } from '../../src/components/ScreenPlaceholder';
+import { ProfileScreen } from '../../src/features/profile/ProfileScreen';
 
 export default function ProfileRoute() {
-  return <ScreenPlaceholder title="Profile" detail="Make this space feel like yours." />;
+  return <ProfileScreen />;
 }

@@ -5,6 +5,7 @@ import { useRouter, type Href } from 'expo-router';
 import { DAILY_PROMPTS, getDailyPromptIndex, getLocalDateKey, getTodayProgress, type AppData } from '@mindspring/core';
 import { useAppStore } from '../../state/AppProvider';
 import { useLocalToday } from '../../state/useLocalToday';
+import { useReducedMotion } from '../../state/useReducedMotion';
 import { useNativeTheme } from '../../theme/ThemeProvider';
 import { CheckInCard } from './CheckInCard';
 
@@ -27,6 +28,7 @@ export function HomeScreen({ today, onNavigate }: { today?: Date; onNavigate?: (
   const { data, toggleHabitToday } = useAppStore();
   const { tokens } = useNativeTheme();
   const liveTodayKey = useLocalToday();
+  const reducedMotion = useReducedMotion();
   const dateKey = today ? getLocalDateKey(today) : liveTodayKey;
   const progress = getTodayProgress(data, dateKey);
   const action = getContextualNextAction(data, dateKey);
@@ -39,13 +41,13 @@ export function HomeScreen({ today, onNavigate }: { today?: Date; onNavigate?: (
 
   const navigate = (route: string) => onNavigate ? onNavigate(route) : router.push(route as Href);
   const handleNextAction = () => {
-    if (action.destination === 'check-in') scrollRef.current?.scrollTo({ y: Math.max(0, checkInOffset.current - 12), animated: true });
+    if (action.destination === 'check-in') scrollRef.current?.scrollTo({ y: Math.max(0, checkInOffset.current - 12), animated: !reducedMotion });
     else navigate(action.destination);
   };
 
   return (
     <SafeAreaView style={[styles.safeArea, { backgroundColor: tokens.background }]} edges={['top', 'left', 'right']}>
-      <ScrollView ref={scrollRef} contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
+      <ScrollView ref={scrollRef} contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled" automaticallyAdjustKeyboardInsets>
         <View style={styles.topRow}>
           <View style={styles.topCopy}>
             <Text style={[styles.eyebrow, { color: tokens.primary }]}>MINDSPRING · TODAY</Text>

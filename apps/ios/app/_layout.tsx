@@ -20,6 +20,7 @@ function AppNavigator() {
           <Stack.Screen name="habits" options={{ headerShown: false }} />
           <Stack.Screen name="add" options={{ presentation: 'formSheet', headerShown: false, sheetGrabberVisible: true }} />
           <Stack.Screen name="journal/compose" options={{ headerShown: false }} />
+          <Stack.Screen name="journal/entry/[id]" options={{ headerShown: false }} />
         </Stack>
       </View>
     </AppRouteGate>

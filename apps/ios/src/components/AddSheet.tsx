@@ -61,7 +61,7 @@ export function AddSheet({
   };
 
   return (
-    <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={[styles.page, { backgroundColor: tokens.background }]}>
+    <ScrollView keyboardShouldPersistTaps="handled" automaticallyAdjustKeyboardInsets contentContainerStyle={[styles.page, { backgroundColor: tokens.background }]}>
       <View style={styles.grabber} accessibilityElementsHidden />
       <View style={styles.header}>
         <View style={styles.headerCopy}>
@@ -142,4 +142,3 @@ const styles = StyleSheet.create({
   saveText: { fontSize: 15, fontWeight: '700' },
   disabled: { opacity: 0.6 },
 });
-

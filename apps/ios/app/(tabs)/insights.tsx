@@ -1,5 +1,5 @@
-import { ScreenPlaceholder } from '../../src/components/ScreenPlaceholder';
+import { InsightsScreen } from '../../src/features/insights/InsightsScreen';
 
 export default function InsightsRoute() {
-  return <ScreenPlaceholder title="Insights" detail="See your own rhythm over time." />;
+  return <InsightsScreen />;
 }

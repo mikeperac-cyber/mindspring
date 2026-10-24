@@ -119,8 +119,7 @@ export function AppProvider({
   const completeOnboarding = useCallback(async (profile: Profile): Promise<boolean> => {
     const clean = cleanProfile(profile);
     if (!clean) return false;
-    await commitData({ ...dataRef.current, profile: clean });
-    return true;
+    return commitData({ ...dataRef.current, profile: clean });
   }, [commitData]);
 
   const saveCheckIn = useCallback(async (input: DailyCheckIn): Promise<boolean> => {
@@ -203,8 +202,7 @@ export function AppProvider({
   const updateProfile = useCallback(async (profile: Profile): Promise<boolean> => {
     const clean = cleanProfile(profile);
     if (!clean) return false;
-    await commitData({ ...dataRef.current, profile: clean });
-    return true;
+    return commitData({ ...dataRef.current, profile: clean });
   }, [commitData]);
 
   const setTheme = useCallback(async (next: ThemeId): Promise<void> => {

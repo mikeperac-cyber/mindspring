@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { DAILY_PROMPTS, getDailyPromptIndex } from '@mindspring/core';
 import { useRouter } from 'expo-router';
 import { useAppStore } from '../../state/AppProvider';
@@ -47,8 +48,8 @@ export function JournalComposer({ onBack }: { onBack?: () => void }) {
   };
 
   return (
-    <View style={[styles.safe, { backgroundColor: tokens.background }]}>
-      <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
+    <SafeAreaView style={[styles.safe, { backgroundColor: tokens.background }]} edges={['top', 'left', 'right']}>
+      <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled" automaticallyAdjustKeyboardInsets>
         <View style={styles.header}>
           <Pressable onPress={onBack ?? (() => router.back())} accessibilityRole="button" accessibilityLabel="Back to journal" style={[styles.back, { backgroundColor: tokens.surfaceAlt }]}>
             <Text style={[styles.backText, { color: tokens.primary }]}>‹</Text>
@@ -79,7 +80,7 @@ export function JournalComposer({ onBack }: { onBack?: () => void }) {
           <Text style={[styles.saveText, { color: tokens.primaryText }]}>{saving ? 'Saving…' : 'Save reflection'}</Text>
         </Pressable>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -102,5 +103,3 @@ const styles = StyleSheet.create({
   saveText: { fontSize: 15, fontWeight: '700' },
   disabled: { opacity: 0.6 },
 });
-
-
